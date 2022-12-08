@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
+import './index.css'
 
 function App() {
   // Store back-end data
