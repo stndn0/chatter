@@ -5,10 +5,8 @@ const router = express.Router();
 const auth_controller = require('../controllers/authController');
 
 router.post("/login", function (req, res) {
-    res.json({"message": "Auth Route Access"})
     console.log("Server: Recieved request to /auth.")
-    console.log(req.body)
-    auth_controller.verifyInput(req);
+    auth_controller.verifyInput(req, res);
 })
 
 module.exports = router;
