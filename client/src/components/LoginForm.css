@@ -15,10 +15,19 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-#user-details {
+#form {
     display: flex;
     flex-direction: column;
     width: 60%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#user-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .textbox {
@@ -33,9 +42,8 @@
 
 #buttons-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60%;
+
+    width: 80%;
 }
 
 #button-login01 {
