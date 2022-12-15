@@ -64,6 +64,7 @@ export function LoginForm() {
         <div id="buttons-container">
           <button name="login" id="button-login01" onClick={() => loginToServer()} >LOGIN</button>
           <button id="button-login02">LOGIN (TEST)</button>
+          <button id="button-login02">Register</button>
         </div>
 
         <p></p>

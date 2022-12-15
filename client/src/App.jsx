@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useEffect } from 'react';
+import { Route, Routes } from "react-router-dom";
+
+import './index.css'
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
-import './index.css'
+import Register from './pages/Register';
 
 function App() {
   // Store back-end data
@@ -22,7 +25,12 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Login />
+      <Routes>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+      </Routes>
+      {/* <Login /> */}
     </div>
   )
 }
