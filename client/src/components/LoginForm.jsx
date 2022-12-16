@@ -8,7 +8,7 @@ import './LoginForm.css';
 const postRoute = "http://localhost:5000/auth/login"
 
 
-export function LoginForm() {
+export function LoginForm(props) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -26,11 +26,20 @@ export function LoginForm() {
     // See: https://stackoverflow.com/questions/63880605/react-js-how-to-prevent-page-reload-once-click-on-the-link-right-now-the-whole
     event.preventDefault();
 
-    console.log("SENDING TO SERVER")
-
     sendToServer(postRoute, { username, password })
       .then((data) => {
+        console.log("*** RESPONSE FROM SERVER ***")
         console.log(data);
+
+        // If the response contains an access token then it means the user is authorized. Update state to reflect that.
+        try {
+          if (data.accessToken != undefined) {
+            props.updateAccessToken(data.accessToken);
+            console.log("Set the following accessToken: ", data.accessToken);
+          }
+        } catch (error) {
+          console.log("Client: Error when setting tokens. Likely due to bad server response.")
+        }
       })
   };
 

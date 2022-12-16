@@ -35,17 +35,15 @@ exports.veryifyLoginInput = async (req, res) => {
                 else {
                     // Create a JSON Web Token
                     // Serialize the user with a name and a secret key.
-                    jwt.sign = {username: username }
-                    
-
-                    res.json({ "Server Response": "You are now logged in..." });
+                    const accessToken = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET);
+                    res.json({ "Server Response": "Successful login", "accessToken": accessToken });
                 }
             }
         }
 
         // Invalid user input.
         else {
-            res.json({ "Server Response": "Failed registration (invalid input)." });
+            res.json({ "Server Response": "Failed login (invalid input)." });
         }
 
     } catch (error) {

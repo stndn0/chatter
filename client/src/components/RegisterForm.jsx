@@ -8,7 +8,7 @@ import './LoginForm.css';
 const postRoute = "http://localhost:5000/auth/register"
 
 
-export function RegisterForm() {
+export function RegisterForm(props) {
     const [username, setUsername] = useState(null);
     const [password1, setPassword1] = useState(null);
     const [password2, setPassword2] = useState(null);
@@ -30,10 +30,9 @@ export function RegisterForm() {
         // See: https://stackoverflow.com/questions/63880605/react-js-how-to-prevent-page-reload-once-click-on-the-link-right-now-the-whole
         event.preventDefault();
 
-        console.log("SENDING TO SERVER")
-
         sendToServer(postRoute, { username, password1, password2 })
             .then((data) => {
+                console.log("*** RESPONSE FROM SERVER ***")
                 console.log(data);
             })
     };

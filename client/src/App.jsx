@@ -10,7 +10,10 @@ import Register from './pages/Register';
 function App() {
   // Store back-end data
   const [data, setData] = useState(null)
+  const [accessToken, setAccessToken] = useState(null);
 
+  const updateAccessToken = (token) => { setAccessToken(token)}
+  
   // Make a test call to the back-end
   useEffect(() => {
     fetch("/api")
@@ -24,11 +27,11 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
+      <Navbar accessToken={accessToken} updateAccessToken={updateAccessToken} />
       <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/login" element={<Login />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} />}></Route>
+        <Route path="/login" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken}/>}></Route>
+        <Route path="/register" element={<Register accessToken={accessToken} updateAccessToken={updateAccessToken} />}></Route>
       </Routes>
     </div>
   )

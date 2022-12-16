@@ -2,10 +2,10 @@ import React from 'react'
 import { LoginForm } from '../components/LoginForm';
 import './Login.css';
 
-export default function Login() {
+export default function Login(props) {
     return (
         <div id="page-container">
-            <LoginForm />
+            <LoginForm accessToken= {props.accessToken} updateAccessToken={props.updateAccessToken} />
         </div>
     )
 }
