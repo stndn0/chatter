@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 
 router.post("/login", function (req, res) {
     console.log("Server: Recieved request to /auth.")
-    auth_controller.verifyInput(req, res);
+    auth_controller.veryifyLoginInput(req, res);
 })
 
 router.post("/register", function (req, res) {
