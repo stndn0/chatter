@@ -13,9 +13,12 @@ const connectDB = require('./config/dbConn');
 connectDB();
 
 const app = express();
+app.use(express.json())
+app.use(express.urlencoded({ extended: true}))
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
 // Routes
 const authRoute = require('./routes/authentication')

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const MIN_USERNAME_LENGTH = 3;
 const MIN_PASSWORD_LENGTH = 3;
+const jwt =  require('jsonwebtoken');
 
 const validUserInput = (username, password) => {
     if (username === null || password === null) {
@@ -30,7 +31,13 @@ exports.veryifyLoginInput = async (req, res) => {
                 if (password !== userExists.password) {
                     res.json({ "Server Response": "Your username or password is incorrect." });
                 }
+                // Authorize user
                 else {
+                    // Create a JSON Web Token
+                    // Serialize the user with a name and a secret key.
+                    jwt.sign = {username: username }
+                    
+
                     res.json({ "Server Response": "You are now logged in..." });
                 }
             }
@@ -42,8 +49,8 @@ exports.veryifyLoginInput = async (req, res) => {
         }
 
     } catch (error) {
-        console.log("Error when sending data from server (veryifyLoginInput)")
-        console.log(error)
+        console.log("\nServer recieved invalid POST data.")
+        console.log(error, "\n\n****** end of error stream ******\n\n")
     }
 }
 

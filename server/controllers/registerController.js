@@ -54,6 +54,7 @@ exports.verifyRegistrationInput = async (req, res) => {
             res.json({ "Server Response": "Failed registration (invalid input)." });
         }
     } catch (error) {
-        console.log(error)
+        console.log("\nServer recieved invalid POST data.")
+        console.log(error, "\n\n****** end of error stream ******\n\n")
     }
 }
