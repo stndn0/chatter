@@ -1,6 +1,8 @@
 import React from 'react';
-import './LoginForm.css';
 import { useState } from 'react'
+import { Link } from "react-router-dom"
+import { sendToServer } from '../helpers/apiFunctions';
+import './LoginForm.css';
 
 // Login form contents is sent to the back end
 const postRoute = "http://localhost:5000/auth/login"
@@ -32,21 +34,6 @@ export function LoginForm() {
       })
   };
 
-  async function sendToServer(url, data) {
-    const options = {
-      method: 'POST',
-      // Headers consist of meta data. We're telling the server that we're sending a JSON.
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }
-
-    const response = await fetch(url, options);
-    return response.json();
-  }
-
-
 
   return (
     <div id="login-form-container">
@@ -64,7 +51,7 @@ export function LoginForm() {
         <div id="buttons-container">
           <button name="login" id="button-login01" onClick={() => loginToServer()} >LOGIN</button>
           <button id="button-login02">LOGIN (TEST)</button>
-          <button id="button-login02">Register</button>
+          <Link to="/register">Register</Link>
         </div>
 
         <p></p>

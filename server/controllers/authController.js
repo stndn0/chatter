@@ -22,3 +22,7 @@ exports.verifyInput = (req, res) => {
         console.log(error)
     }
 }
+
+// exports.verifyRegistrationInput = (req, res) => {
+//     console.log(req.body)
+// }
