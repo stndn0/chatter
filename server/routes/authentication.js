@@ -21,4 +21,9 @@ router.post("/register", function (req, res) {
     register_controller.verifyRegistrationInput(req, res);
 })
 
+router.get("/test", function (req, res, next) {
+    console.log("Server: Recieved request to /test");
+    auth_controller.authenticateToken(req, res, next);
+})
+
 module.exports = router;

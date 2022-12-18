@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const MIN_USERNAME_LENGTH = 3;
 const MIN_PASSWORD_LENGTH = 3;
-const jwt =  require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const validUserInput = (username, password) => {
     if (username === null || password === null) {
@@ -33,10 +33,11 @@ exports.veryifyLoginInput = async (req, res) => {
                 }
                 // Authorize user
                 else {
-                    // Create a JSON Web Token
+                    // Create a JSON Access Token and a JSON Refresh Token.
                     // Serialize the user with a name and a secret key.
-                    const accessToken = jwt.sign(username, process.env.ACCESS_TOKEN_SECRET);
-                    res.json({ "Server Response": "Successful login", "accessToken": accessToken });
+                    const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+                    const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN_SECRET);
+                    res.json({ "Server Response": "Successful login", "accessToken": accessToken, "refreshToken": refreshToken });
                 }
             }
         }
@@ -52,6 +53,47 @@ exports.veryifyLoginInput = async (req, res) => {
     }
 }
 
-// exports.verifyRegistrationInput = (req, res) => {
-//     console.log(req.body)
-// }
+
+// Middleware - authenticate user access token
+// User token must be authenticated before a user is permitted to do anything
+// that requires authorization (e.g view timeline, login...)
+exports.authenticateToken = (req, res, next) => {
+    // Parse incoming request from client. Read the header and verify the token.
+    // console.log(req.headers['authorization']);
+
+    const authHeader = req.headers['authorization'];
+    const token = authHeader.split(' ')[1];
+
+    if (token == 'null') {
+        console.log("Auth error. Invalid token.")
+        return res.json({ "Server Response": "Unauthorized request." });
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, username) => {
+        // Remember that the 'username' variable has already been serialized 
+        // in memory back when the login request was handled.
+
+        console.log("USERNAME")
+        console.log(username);
+
+        // Case: server recieved an access token that is expired. 
+        if (err) {
+            // Ask client to send their refresh token so that the server can verify it.
+            console.log("Token no longer valid. Requesting refresh token.")
+            
+
+            return res.json({ "Server Response": "Unauthorized. Your token is no longer valid." });
+        }
+        else {
+            return res.json({ "Server Response": "Successful authorization!" });
+
+            // TODO - WATCH THIS (13:30) FOR RETURNING USER SPECIFIC DATA
+            // https://www.youtube.com/watch?v=mbsmsi7l3r4&t=30s
+
+            // console.log("Authorization successful for", username);
+            // // Move on from the middleware
+            // req.username = username;
+            // next();
+        }
+    })
+}

@@ -11,8 +11,10 @@ function App() {
   // Store back-end data
   const [data, setData] = useState(null)
   const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
 
   const updateAccessToken = (token) => { setAccessToken(token)}
+  const updateRefreshToken = (token) => { setRefreshToken(token)}
   
   // Make a test call to the back-end
   useEffect(() => {
@@ -29,9 +31,9 @@ function App() {
     <div className="App">
       <Navbar accessToken={accessToken} updateAccessToken={updateAccessToken} />
       <Routes>
-        <Route path="/" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} />}></Route>
-        <Route path="/login" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken}/>}></Route>
-        <Route path="/register" element={<Register accessToken={accessToken} updateAccessToken={updateAccessToken} />}></Route>
+        <Route path="/" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken} />}></Route>
+        <Route path="/login" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken}/>}></Route>
+        <Route path="/register" element={<Register accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken}/>}></Route>
       </Routes>
     </div>
   )

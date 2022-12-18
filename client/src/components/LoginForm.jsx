@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 import { Link } from "react-router-dom"
-import { sendToServer } from '../helpers/apiFunctions';
+import { sendToServer, sendToServerAuthorized } from '../helpers/apiFunctions';
 import './LoginForm.css';
 
 // Login form contents is sent to the back end
@@ -33,16 +33,31 @@ export function LoginForm(props) {
 
         // If the response contains an access token then it means the user is authorized. Update state to reflect that.
         try {
-          if (data.accessToken != undefined) {
+          if (data.accessToken != undefined && data.refreshToken != undefined) {
             props.updateAccessToken(data.accessToken);
+            props.updateRefreshToken(data.refreshToken);
             console.log("Set the following accessToken: ", data.accessToken);
+            console.log("Set the following refreshToken: ", data.refreshToken);
           }
         } catch (error) {
-          console.log("Client: Error when setting tokens. Likely due to bad server response.")
+          console.log("Client: Error when setting tokens. Likely due to bad server response.");
+          console.log(error)
         }
       })
   };
 
+
+  // Testing API call. Remove later.
+  const loadTimeline = () => {
+    event.preventDefault();
+    const AUTH_URL = "http://localhost:5000/auth/test/";
+
+    sendToServerAuthorized(AUTH_URL, props.accessToken)
+      .then((data => {
+        console.log("*** RESPONSE FROM SERVER ***");
+        console.log(data);
+      }))
+  }
 
   return (
     <div id="login-form-container">
@@ -60,6 +75,7 @@ export function LoginForm(props) {
         <div id="buttons-container">
           <button name="login" id="button-login01" onClick={() => loginToServer()} >LOGIN</button>
           <button id="button-login02">LOGIN (TEST)</button>
+          <button id="button-login02" onClick={() => loadTimeline()}>MIDDLEWARE (TEST)</button>
           <Link to="/register">Register</Link>
         </div>
 
