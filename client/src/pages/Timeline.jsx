@@ -1,4 +1,6 @@
 import React from 'react';
+import PostComposer from '../components/PostComposer';
+import UserProfile from '../components/UserProfile';
 import './Timeline.css'
 
 export default function Timeline() {
@@ -10,11 +12,12 @@ export default function Timeline() {
                 </div>
 
                 <div id="timeline">
-
+                    <h2>Home</h2>
+                    <PostComposer></PostComposer>
                 </div>
 
                 <div id="col-right">
-
+                    <UserProfile></UserProfile>
                 </div>
             </div>
 

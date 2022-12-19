@@ -8,18 +8,28 @@
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     width: 92%;
-    border: 1px solid red;
     height: 100%;
 }
 
 #col-left {
+    padding: 10px 16px 10px 16px;
     border: 1px solid yellow;
 }
 
 #timeline {
-    border: 1px solid orange;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 32px 10px 32px;
+    /* border: 1px solid orange; */
 }
 
 #col-right {
-    border: 1px solid pink;
+    /* border: 1px solid pink; */
+    padding: 10px 16px 10px 16px;
+    /* border-radius: 18px; */
+}
+
+h2 {
+    font-size: 1.3em;
+    margin-bottom: 12px;
 }

@@ -1,0 +1,21 @@
+#post-composer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+#composer-field {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    outline: 0;
+    padding: 7px 0;
+    border-bottom: 2px solid #9b9b9b;
+    color: white;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.905);
+    opacity: 1;     /* Firefox */
+}
