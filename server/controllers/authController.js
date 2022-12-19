@@ -31,14 +31,22 @@ exports.veryifyLoginInput = async (req, res) => {
                 if (password !== userExists.password) {
                     res.json({ "Server Response": "Your username or password is incorrect." });
                 }
-                // Authorize user
+                // Authorize user and return relevant information for the initial timeline load
                 else {
+                    const bio = userExists.bio;
+
                     // Create a JSON Access Token and a JSON Refresh Token.
                     // Serialize the user with a name and a secret key.
                     const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET);
                     // const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
                     const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN_SECRET);
-                    res.json({ "Server Response": "Successful login", "accessToken": accessToken, "refreshToken": refreshToken });
+                    res.json({ 
+                        "Server Response": "Successful login", 
+                        "accessToken": accessToken, 
+                        "refreshToken": refreshToken, 
+                        "username": username ,
+                        "bio": bio,
+                    });
                 }
             }
         }

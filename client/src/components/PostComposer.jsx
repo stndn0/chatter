@@ -1,10 +1,12 @@
 import React from 'react'
 import './PostComposer.css'
 
-function PostComposer() {
+function PostComposer(props) {
+    const placeholderText = "What's up, " + props.username + "? Start typing here..."
+
     return (
         <div id='post-composer-container'>
-            <input id='composer-field' placeholder="What's up, {username}?"></input>
+            <input id='composer-field' placeholder={placeholderText}></input>
         </div>
     )
 }

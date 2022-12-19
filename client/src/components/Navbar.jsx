@@ -1,24 +1,29 @@
 import React from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import notificationIcon01 from '../assets/icons/notifications-circle.svg';
 import logoutIcon01 from '../assets/icons/log-out-outline.svg';
 import user from '../assets/icons/user.png';
 
-const logout = (props) => {
-    props.updateAccessToken(null);
-    console.log("*** Logout *** ")
-}
 
 function Navbar(props) {
+    const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
+
+    const logout = (props) => {
+        props.updateAccessToken(null);
+        navigate("/login")
+        console.log("*** Logout *** ")
+    }
+
     return (
         <div id="navbar-container">
             <div id="navbar-parent">
                 <div id="navbar-lhs">
-                    <p className='logo'>chatter 🦜</p>
+                    <p className='logo'>Chatter 🦜</p>
                 </div>
                 <div id="navbar-rhs">
                     <div id="user-contents">
-                        {/* <p>accessToken: {props.accessToken.substring(0, 10)}</p> */}
+                        {/* <p>Test accessToken: {props.accessToken}</p> */}
                         <button id="create-post">New Post</button>
                         <img src={notificationIcon01} className="icon"></img>
                         <img src={logoutIcon01} className="icon" onClick={() => logout(props)}></img>

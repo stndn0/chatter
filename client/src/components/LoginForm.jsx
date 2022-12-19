@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import { sendToServer, sendToServerAuthorized } from '../helpers/apiFunctions';
+import { sendToServer } from '../helpers/apiFunctions';
 import './LoginForm.css';
 
 // Login form contents is sent to the back end
@@ -35,10 +35,11 @@ export function LoginForm(props) {
         // If the response contains an access token then it means the user is authorized. Update state to reflect that.
         try {
           if (data.accessToken != undefined && data.refreshToken != undefined) {
+            props.updateUsername(data.username)
+
             props.updateAccessToken(data.accessToken);
             props.updateRefreshToken(data.refreshToken);
-            console.log("Set the following accessToken: ", data.accessToken);
-            console.log("Set the following refreshToken: ", data.refreshToken);
+            props.updateBio(data.bio);
 
             // Redirect
             console.log("Redirect...")
@@ -46,7 +47,7 @@ export function LoginForm(props) {
 
           }
         } catch (error) {
-          console.log("Client: Error when setting tokens. Likely due to bad server response.");
+          console.log("Client: Error when setting data. Likely due to bad server response.");
           console.log(error)
         }
       })
@@ -54,16 +55,16 @@ export function LoginForm(props) {
 
 
   // Testing API call. Remove later.
-  const loadTimeline = () => {
-    event.preventDefault();
-    const AUTH_URL = "http://localhost:5000/auth/test/";
+  // const loadTimeline = () => {
+  //   event.preventDefault();
+  //   const AUTH_URL = "http://localhost:5000/auth/test/";
 
-    sendToServerAuthorized(AUTH_URL, props.accessToken)
-      .then((data => {
-        console.log("*** RESPONSE FROM SERVER ***");
-        console.log(data);
-      }))
-  }
+  //   sendToServerAuthorized(AUTH_URL, props.accessToken)
+  //     .then((data => {
+  //       console.log("*** RESPONSE FROM SERVER ***");
+  //       console.log(data);
+  //     }))
+  // }
 
   return (
     <div id="login-form-container">
@@ -86,7 +87,6 @@ export function LoginForm(props) {
         </div>
 
         <p></p>
-        {/* {console.log(password)} */}
       </form>
     </div>
   )

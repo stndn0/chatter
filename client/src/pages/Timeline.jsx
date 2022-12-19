@@ -16,7 +16,6 @@ export default function Timeline(props) {
         )
     }
 
-
     return (
         <div id="page-root">
             <div id="grid-container">
@@ -26,7 +25,7 @@ export default function Timeline(props) {
 
                 <div id="timeline">
                     <h2>Home</h2>
-                    <PostComposer></PostComposer>
+                    <PostComposer {...props}></PostComposer>
 
                     { /* Dynamically render different posts on the users timeline */}
                     {displayPosts(props)}
@@ -34,7 +33,7 @@ export default function Timeline(props) {
                 </div>
 
                 <div id="col-right">
-                    <UserProfile></UserProfile>
+                    <UserProfile {...props}></UserProfile>
                 </div>
             </div>
 

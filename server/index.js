@@ -21,8 +21,10 @@ app.use(cors())
 // app.use(bodyParser.json());
 
 // Routes
-const authRoute = require('./routes/authentication')
+const authRoute = require('./routes/authentication');
+const userRoute = require('./routes/userRoute');
 app.use('/auth', authRoute);
+app.use('/user', userRoute);
 
 // Respond to calls from React front-end
 app.get("/api", (req, res) => {
