@@ -18,7 +18,7 @@ function Navbar(props) {
                 </div>
                 <div id="navbar-rhs">
                     <div id="user-contents">
-                        <p>accessToken: {props.accessToken}</p>
+                        <p>accessToken: {props.accessToken.substring(0, 10)}</p>
                         <button id="create-post">New Post</button>
                         <img src={notificationIcon01} className="icon"></img>
                         <img src={logoutIcon01} className="icon" onClick={() => logout(props)}></img>

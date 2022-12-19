@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import { sendToServer, sendToServerAuthorized } from '../helpers/apiFunctions';
 import './LoginForm.css';
 
@@ -11,6 +11,7 @@ const postRoute = "http://localhost:5000/auth/login"
 export function LoginForm(props) {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
+  const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
 
   // Gets the values of the input fields and updates the state.
   const handleUsernameInput = event => {
@@ -38,6 +39,11 @@ export function LoginForm(props) {
             props.updateRefreshToken(data.refreshToken);
             console.log("Set the following accessToken: ", data.accessToken);
             console.log("Set the following refreshToken: ", data.refreshToken);
+
+            // Redirect
+            console.log("Redirect...")
+            navigate("/timeline")
+
           }
         } catch (error) {
           console.log("Client: Error when setting tokens. Likely due to bad server response.");

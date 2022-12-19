@@ -6,6 +6,7 @@ import './index.css'
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Timeline from './pages/Timeline';
 
 function App() {
   // Store back-end data
@@ -33,7 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken} />}></Route>
         <Route path="/login" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken}/>}></Route>
-        <Route path="/register" element={<Register accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken}/>}></Route>
+        <Route path="/timeline" element={<Timeline accessToken={accessToken}/>}></Route>
       </Routes>
     </div>
   )

@@ -35,7 +35,8 @@ exports.veryifyLoginInput = async (req, res) => {
                 else {
                     // Create a JSON Access Token and a JSON Refresh Token.
                     // Serialize the user with a name and a secret key.
-                    const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
+                    const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET);
+                    // const accessToken = jwt.sign({username: username}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
                     const refreshToken = jwt.sign(username, process.env.REFRESH_TOKEN_SECRET);
                     res.json({ "Server Response": "Successful login", "accessToken": accessToken, "refreshToken": refreshToken });
                 }
