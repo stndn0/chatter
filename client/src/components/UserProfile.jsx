@@ -28,8 +28,9 @@ function UserProfile(props) {
     // This function is triggered when the user clicks the 'update bio' button.
     const sendUpdatedBioToServer = () => {
         let bio = props.userBio;
+        let userid = props.userid;
 
-        setUserBio(props.accessToken, { bio })
+        setUserBio(props.accessToken, { userid, bio })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
                 console.log(data);

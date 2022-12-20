@@ -8,6 +8,7 @@ var bodyParser = require('body-parser')     // Parse POST requests (i.e. form da
 // We use mongoose to work with MongoDB
 const mongoose = require('mongoose')
 const connectDB = require('./config/dbConn');
+mongoose.set('strictQuery', false);
 
 // Connect to MongoDB
 connectDB();
@@ -16,6 +17,15 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 app.use(cors())
+
+// Basic middleware to log requests
+const requestLogger = (req, res, next) => {
+  console.log("\n\n*** SERVER received", req.method + " request. ***\n");
+  next();
+
+  console.log("\n*** END. ***\n\n")
+}
+app.use(requestLogger)
 
 // app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(bodyParser.json());

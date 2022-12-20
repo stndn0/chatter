@@ -36,7 +36,7 @@ export function LoginForm(props) {
         try {
           if (data.accessToken != undefined && data.refreshToken != undefined) {
             props.updateUsername(data.username)
-
+            props.updateUserID(data.userid)
             props.updateAccessToken(data.accessToken);
             props.updateRefreshToken(data.refreshToken);
             props.updateBio(data.bio);

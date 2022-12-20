@@ -34,6 +34,7 @@ exports.veryifyLoginInput = async (req, res) => {
                 // Authorize user and return relevant information for the initial timeline load
                 else {
                     const bio = userExists.bio;
+                    const userid = userExists.toJSON().userid;      // NOTE: Must put .toJSON() to prevent weird "undefined" error!
 
                     // Create a JSON Access Token and a JSON Refresh Token.
                     // Serialize the user with a name and a secret key.
@@ -46,6 +47,7 @@ exports.veryifyLoginInput = async (req, res) => {
                         "refreshToken": refreshToken, 
                         "username": username ,
                         "bio": bio,
+                        "userid": userid,
                     });
                 }
             }
@@ -68,8 +70,6 @@ exports.veryifyLoginInput = async (req, res) => {
 // that requires authorization (e.g view timeline, login...)
 exports.authenticateToken = (req, res, next) => {
     // Parse incoming request from client. Read the header and verify the token.
-    // console.log(req.headers['authorization']);
-
     const authHeader = req.headers['authorization'];
     const token = authHeader.split(' ')[1];
 
@@ -78,31 +78,27 @@ exports.authenticateToken = (req, res, next) => {
         return res.json({ "Server Response": "Unauthorized request." });
     }
 
+    // Check token to see if it's valid.
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, username) => {
         // Remember that the 'username' variable has already been serialized 
         // in memory back when the login request was handled.
-
-        console.log("USERNAME")
-        console.log(username);
 
         // Case: server recieved an access token that is expired. 
         if (err) {
             // Ask client to send their refresh token so that the server can verify it.
             console.log("Token no longer valid. Requesting refresh token.")
-            
-
             return res.json({ "Server Response": "Unauthorized. Your token is no longer valid." });
         }
+        // Valid token
         else {
-            return res.json({ "Server Response": "Successful authorization!" });
-
             // TODO - WATCH THIS (13:30) FOR RETURNING USER SPECIFIC DATA
             // https://www.youtube.com/watch?v=mbsmsi7l3r4&t=30s
 
             // console.log("Authorization successful for", username);
             // // Move on from the middleware
             // req.username = username;
-            // next();
+            next();
+            return;
         }
     })
 }
