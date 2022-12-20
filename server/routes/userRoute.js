@@ -10,16 +10,18 @@ router.get("/", (req, res) => {
     res.json({ "message": "/user/" })
 })
 
-router.post("/updatebio", auth_controller.authenticateToken, (req, res)  => {
+// Note the authentication middleware here. 
+// We're essentially authenticating the user before fulfiling their request.
+router.post("/updatebio", auth_controller.authenticateToken, (req, res) => {
     console.log("Server: Received request to /updatebio");
     user_controller.updateUserBio(req, res);
 })
 
+router.post("/newpost", auth_controller.authenticateToken, (req, res) => {
+    console.log("Server: Received request to /newpost");
+    user_controller.newPost(req, res);
+})
 
-function test(req, res, next) {
-    console.log("middleware")
-    next()
-}
 
 
 module.exports = router;

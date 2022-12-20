@@ -34,6 +34,7 @@ export async function sendToServer(url, data) {
 // }
 
 
+// TODO - merge with sendToServerAuthenticated
 // Authorized route
 // Send updated user bio information to server endpoint
 export async function setUserBio(accessToken, data) {
@@ -51,5 +52,23 @@ export async function setUserBio(accessToken, data) {
     }
 
     const response = await fetch(endpooint, options)
+    return response.json();
+}
+
+// Send to a server endpoint which requires authorization.
+export async function sendToServerAuthenticated(endpoint, accessToken, data) {
+    const authBody = 'Bearer ' + accessToken;
+
+    const options = {
+        method: 'POST',
+        // Headers consist of meta data. We're telling the server that we're sending a JSON.
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authBody
+        },
+        body: JSON.stringify(data)
+    }
+
+    const response = await fetch(endpoint, options)
     return response.json();
 }

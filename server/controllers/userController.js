@@ -1,5 +1,7 @@
+// Database models
 const User = require('../models/User');
-const { authenticateToken } = require("./authController")
+const Post = require('../models/Post');
+
 
 exports.updateUserBio = async (req, res) => {
     try {
@@ -14,9 +16,13 @@ exports.updateUserBio = async (req, res) => {
 }
 
 
-exports.newTweet = async (req, res) => {
+exports.newPost = async (req, res) => {
     try {
-        
+        console.log(req.body);
+
+        // To insert a document with *Mongoose* we use the create method.
+        const update = await Post.create( {userid: req.body.userid, post: req.body.post} )
+
     } catch (error) {
         console.log(error)
     }
