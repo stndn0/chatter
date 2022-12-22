@@ -29,6 +29,21 @@ const postSchema = new Schema({
     time: {
         type: String,
         required: true
+    },
+    // Array of postids
+    replies: {
+        type: Array,
+        required: true
+    },
+    // Is this a standalone post or is this post a reply to someone else?
+    isStandalonePost: {
+        type: Boolean,
+        required: true
+    },
+    // If this post is a response to someone else then store the postID of the other post.
+    replyingTo: {
+        type: String,
+        required: false
     }
 })
 
