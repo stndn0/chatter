@@ -24,7 +24,7 @@ function Navbar(props) {
                 <div id="navbar-rhs">
                     <div id="user-contents">
                         {/* <p>Test accessToken: {props.accessToken}</p> */}
-                        <button id="create-post">New Post</button>
+                        {/* <button id="create-post">New Post</button> */}
                         <img src={notificationIcon01} className="icon"></img>
                         <img src={logoutIcon01} className="icon" onClick={() => logout(props)}></img>
                         <img src={user} className="icon-user"></img>

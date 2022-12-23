@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* border: 1px solid red; */
-    border-radius: 18px;
-    background-color: black;
+
+    border-radius: 6px;
+    background-color: #191b22;
     height: 400px;
     padding: 16px 20px 16px 20px;
 }
@@ -15,6 +15,8 @@
 
 .username {
     font-size: 1.3em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.534);
 }
 
 .user-bio {
@@ -30,4 +32,3 @@
     border: none;
     width: 100%;
 }
-

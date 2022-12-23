@@ -27,7 +27,7 @@ function PostComposer(props) {
     return (
         <div id='post-composer-container'>
             <input id='composer-field' onChange={handleTextInput} placeholder={placeholderText}></input>
-            <button onClick={() => sendPostToServer()}>Post</button>
+            <button id="button-post" className='button-01' onClick={() => sendPostToServer()}>Post</button>
         </div>
     )
 }

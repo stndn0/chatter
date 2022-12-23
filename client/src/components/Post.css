@@ -1,7 +1,9 @@
 #post-container {
     display: flex;
     justify-content: center;
-    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 6px;
+    background-color: #282c37;
 }
 
 #post {
@@ -16,7 +18,7 @@
 .post-profile-pic {
     width: 48px;
     height: 48px;
-    border: 1px solid yellow;
+    border: 1px solid rgba(10, 10, 0, 0.144);
     margin-top: 3px;
 }
 

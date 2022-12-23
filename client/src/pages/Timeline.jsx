@@ -81,7 +81,7 @@ export default function Timeline(props) {
         <div id="page-root">
             <div id="grid-container">
                 <div id="col-left">
-
+                    <h2>Trending</h2>
                 </div>
 
                 <div id="timeline">
@@ -94,6 +94,7 @@ export default function Timeline(props) {
                 </div>
 
                 <div id="col-right">
+                    <h2>Explore</h2>
                     <UserProfile {...props}></UserProfile>
                 </div>
             </div>

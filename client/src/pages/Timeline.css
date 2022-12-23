@@ -13,7 +13,7 @@
 
 #col-left {
     padding: 10px 16px 10px 16px;
-    border: 1px solid yellow;
+
 }
 
 #timeline {
@@ -21,6 +21,8 @@
     flex-direction: column;
     padding: 10px 32px 10px 32px;
     /* border: 1px solid orange; */
+    border-right: 1px solid rgba(0, 0, 0, 0.534);
+    border-left: 1px solid rgba(0, 0, 0, 0.534);
 }
 
 #col-right {

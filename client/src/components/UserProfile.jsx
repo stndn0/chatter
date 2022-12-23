@@ -72,7 +72,7 @@ function UserProfile(props) {
                 <div className='username'>{props.username}</div>
                 {textArea()}
             </div>
-            <button onClick={() => sendUpdatedBioToServer()}>Update Bio</button>
+            <button className="button-01" onClick={() => sendUpdatedBioToServer()}>Update Bio</button>
         </div>
     )
 }

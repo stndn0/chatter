@@ -11,6 +11,7 @@
     background: transparent;
     outline: 0;
     padding: 7px 0;
+    margin-right: 24px;
     border-bottom: 2px solid #9b9b9b;
     color: white;
 }
@@ -18,4 +19,13 @@
 ::placeholder {
     color: rgba(255, 255, 255, 0.905);
     opacity: 1;     /* Firefox */
+}
+
+#button-post {
+    width: 20%;
+    height: 100%;
+    transition-duration: 0.2s;
+}
+#button-post:hover {
+    background-color: #ed215b; 
 }

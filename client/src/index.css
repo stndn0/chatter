@@ -11,7 +11,8 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   /* background-color: #242424; */
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(103,30,30,0.6628852224483543) 100%); 
+  /* background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(103,30,30,0.6628852224483543) 100%);  */
+  background-color: #191b22;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -33,5 +34,13 @@ button, label, input {
 
 button {
   cursor: pointer;
+  border: none;
+  border-radius: 4px;
+}
+
+.button-01 {
+  background-color: #DE3163;
+  font-weight: bold;
+  font-size: 0.8em;
 }
 
