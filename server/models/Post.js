@@ -26,6 +26,10 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: false
+    },
     // time: {
     //     type: String,
     //     required: true

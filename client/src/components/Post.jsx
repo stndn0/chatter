@@ -11,7 +11,7 @@ export default function Post(data) {
                 <div className="post-profile-pic"></div>
 
                 <div id="post-content">
-                    <div className="post-username">{postData.userid}</div>
+                    <div className="post-username">{postData.username}</div>
 
                     <div className="post-body">{postData.post} {postData.date}  {postData.time}</div>
 

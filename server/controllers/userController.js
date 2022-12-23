@@ -61,9 +61,10 @@ exports.getTimelinePosts = async (req, res) => {
 
         // Retrieve posts from whoever the user is following
         const timelinePosts = [];
-
         for (followedUserID of following) {
+            // Get post data
             let followedUserPosts = await Post.find({ userid: followedUserID }).sort({ _id: -1 }).exec();
+
             timelinePosts.push(followedUserPosts);
         }
 
@@ -80,12 +81,16 @@ exports.getTimelinePosts = async (req, res) => {
         }
         posts.sort((a, b) => new Date(b.date) - new Date(a.date))
 
-        // for (let post of posts) {
-        //     console.log(post)
-        // }
-
-
+        // Currently each post object in the array only has the userid and not the username
+        // Retrieve the username and add it to each post object
+        for (let post of posts) {
+            let currentUser = await User.findOne({ userid: post.userid }).exec();
+            let username = currentUser.toJSON().username;
+            Object.assign(post, { username: username })
+            console.log(post)
+        }
         res.json({ "posts": posts })
+        
     } catch (error) {
         console.log(error)
         console.log("Error")
