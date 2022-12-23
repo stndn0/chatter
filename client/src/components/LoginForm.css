@@ -5,14 +5,16 @@
     justify-content: space-around;
     min-width: 400px;
     width: 40vw;
-    height: 80%;
+    height: 65%;
+    padding: 36px 0px 36px 0px;
     max-height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.11);
-    border-radius: 16px;
-    color: black;
-    background-color: white;
-    overflow: hidden;
+    border-radius: 8px;
+    background-color: #282c37;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    color: white;
+    overflow: hidden;
+
 }
 
 #form {
@@ -31,29 +33,31 @@
 }
 
 .textbox {
-    width: 100%;
     background-color: white;
     color: black;
-    border: none;
+    border: 1px solid black;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
     height: 28px;
     margin-bottom: 16px;
+    border-radius: 4px;
+}
+
+.textbox:focus {
+    outline: none !important;
+    border: 1px solid #DE3163;
+    box-shadow: 0 0 6px #DE3163;
 }
 
 #buttons-container {
     display: flex;
-
-    width: 80%;
+    width: 100%;
 }
 
-#button-login01 {
+#button-login {
     width: 100%;
     height: 42px;
-    border: none;
-    border-radius: 24px;
     font-weight: bold;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
 }
 
 #buttons-container {
@@ -63,6 +67,26 @@
 
 }
 
-label {
-    color: rgba(0, 0, 0, 0.76);
+#sign-up {
+    color: inherit;
+    text-decoration: none;
+    transition-duration: 0.2s;
+}
+
+#sign-up:hover {
+    text-decoration: underline;
+}
+
+#server-feedback-container {
+    display: flex;
+    padding: 3px 16px 3px 16px;
+    align-items: center;
+    align-content: center;
+}
+
+#server-feedback-text {
+    font-size: 0.8em;
+    padding: 8px 8px 8px 8px;
+    color: rgb(243, 48, 48);
+    text-align: center;
 }

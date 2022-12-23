@@ -24,12 +24,12 @@ exports.veryifyLoginInput = async (req, res) => {
             const userExists = await User.findOne({ username: username }).exec() // Must use .exec() when using async/await.
 
             if (!userExists) {
-                res.json({ "Server Response": "Your username or password is incorrect." });
+                res.json({ "response": 403 });
             }
             else {
                 // Authenticate user
                 if (password !== userExists.password) {
-                    res.json({ "Server Response": "Your username or password is incorrect." });
+                    res.json({ "response": 403 });
                 }
                 // Authorize user and return relevant information for the initial timeline load
                 else {
@@ -55,7 +55,7 @@ exports.veryifyLoginInput = async (req, res) => {
 
         // Invalid user input.
         else {
-            res.json({ "Server Response": "Failed login (invalid input)." });
+            res.json({ "response": 403 });
         }
 
     } catch (error) {

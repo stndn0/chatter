@@ -44,3 +44,13 @@ button {
   font-size: 0.8em;
 }
 
+.button-02 {
+  font-weight: bold;
+  background-color: #191b22;
+  font-size: 0.8em;
+}
+
+#loading-01 {
+  height: 84px;
+  width: 84px;
+}

@@ -1,5 +1,8 @@
 const User = require('../models/User');
-// todo - hash user password with bcrypt
+
+// Used to generate random string
+const crypto = require('crypto');
+
 
 // Input validation helper function
 const validUserInput = (username, password1, password2) => {
@@ -31,27 +34,31 @@ exports.verifyRegistrationInput = async (req, res) => {
             // If the username is taken then 'duplicate' will store it's value.
             const duplicate = await User.findOne({ username: username }).exec(); // Need to put .exec() when using async/await.
             if (duplicate) {
-                res.json({ "Server Response": "Failed registration (user already exists in database)" });
+                res.json({ "response": 403 });
             }
 
             // User does not exist in database. Register the user.
             else {
                 // Create and store the user.
                 const date = new Date().toJSON().slice(0, 10);
+                let userid = crypto.randomBytes(5).toString('hex');
                 const result = await User.create({
                     "username": username,
                     "password": password1,
-                    "date": date
+                    "date": date,
+                    "userid": userid,
+                    "following": [],
+                    "followers": []
                 })
 
                 console.log(result)
-                res.json({ "Server Response": "Successful registration" });
+                res.json({ "response": "Successful registration" });
             }
         }
 
         // Invalid user input.
         else {
-            res.json({ "Server Response": "Failed registration (invalid input)." });
+            res.json({ "response": 403 });
         }
     } catch (error) {
         console.log("\nServer recieved invalid POST data.")

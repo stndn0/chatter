@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Link } from "react-router-dom";
 import { sendToServer } from '../helpers/apiFunctions';
 import './LoginForm.css';
+import loading01 from '../assets/anims/loading01.svg';
 
 // Login form contents is sent to the back end
 const postRoute = "http://localhost:5000/auth/register"
@@ -12,6 +13,16 @@ export function RegisterForm(props) {
     const [username, setUsername] = useState(null);
     const [password1, setPassword1] = useState(null);
     const [password2, setPassword2] = useState(null);
+    const [serverResponse, setServerResponse] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const updateServerResponse = (response) => {
+        setServerResponse(response);
+    }
+
+    const updateIsLoading = bool => {
+        setIsLoading(bool)
+      }
 
     // Gets the values of the input fields and updates the state.
     const handleUsernameInput = event => {
@@ -29,20 +40,41 @@ export function RegisterForm(props) {
         // Stop the page from reloading when the user clicks the Login button.
         // See: https://stackoverflow.com/questions/63880605/react-js-how-to-prevent-page-reload-once-click-on-the-link-right-now-the-whole
         event.preventDefault();
+        updateIsLoading(true);
+        updateServerResponse("")
 
         sendToServer(postRoute, { username, password1, password2 })
             .then((data) => {
                 console.log("*** RESPONSE FROM SERVER ***")
+                updateIsLoading(false);
                 console.log(data);
+                if (data.response === 403) {
+                    updateServerResponse("This username might already be taken or your passwords could be incorrect. Please try again.")
+                }
+                else {
+                    updateServerResponse("Successful registration! You may now log in.")
+                }
             })
     };
 
+
+    const loadingAnimation = () => {
+        if (isLoading) {
+            return (
+                <div>
+                    <img id="loading-01" src={loading01}></img>
+                </div>
+            )
+        }
+        return (
+            <div></div>
+        )
+    }
 
 
     return (
         <div id="login-form-container">
             <h1>Register</h1>
-
             <form id="form">
                 <div id="user-details">
                     <label>Username</label>
@@ -54,11 +86,15 @@ export function RegisterForm(props) {
                 </div>
 
                 <div id="buttons-container">
-                    <button name="Register" id="button-login01" onClick={() => registerToServer()} >Register</button>
-                    <Link to="/login">Login Page</Link>
+                    <button name="Register" className="button-01" id="button-login" onClick={() => registerToServer()} >Register</button>
+                    <Link to="/login" id='sign-up'>Login</Link>
                 </div>
 
-                <p></p>
+                <div id="server-feedback-container">
+                    <p id="server-feedback-text">{serverResponse}</p>
+                </div>
+
+                {loadingAnimation()}
             </form>
         </div>
     )
