@@ -57,6 +57,8 @@ export async function setUserBio(accessToken, data) {
 
 // Send to a server endpoint which requires authorization.
 export async function sendToServerAuthenticated(endpoint, accessToken, data) {
+    console.log("*** SEND REQUEST TO SERVER ***")
+
     const authBody = 'Bearer ' + accessToken;
 
     const options = {
@@ -72,3 +74,21 @@ export async function sendToServerAuthenticated(endpoint, accessToken, data) {
     const response = await fetch(endpoint, options)
     return response.json();
 }
+
+// // Get from a server endpoint which requires authorization.
+// export async function getFromServerAuthenticated(endpoint, accessToken, data) {
+//     const authBody = 'Bearer ' + accessToken;
+
+//     const options = {
+//         method: 'GET',
+//         // Headers consist of meta data. We're telling the server that we're sending a JSON.
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': authBody
+//         },
+//         body: JSON.stringify(data)
+//     }
+
+//     const response = await fetch(endpoint, options)
+//     return response.json();
+// }

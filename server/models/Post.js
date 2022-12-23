@@ -26,10 +26,14 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    time: {
-        type: String,
-        required: true
-    },
+    // time: {
+    //     type: String,
+    //     required: true
+    // },
+    // datetime: {
+    //     type: String,
+    //     required: true
+    // },
     // Array of postids
     replies: {
         type: Array,

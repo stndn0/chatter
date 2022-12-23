@@ -22,6 +22,11 @@ router.post("/newpost", auth_controller.authenticateToken, (req, res) => {
     user_controller.newPost(req, res);
 })
 
+router.post("/gettimelineposts", auth_controller.authenticateToken, (req ,res) => {
+    console.log("Server: Received request to /gettimelineposts");
+    user_controller.getTimelinePosts(req, res);
+})
+
 
 
 module.exports = router;
