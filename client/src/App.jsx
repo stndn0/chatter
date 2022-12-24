@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
+import UserPage from './pages/UserPage';
 
 function App() {
   // Store back-end data
@@ -45,6 +46,8 @@ function App() {
         <Route path="/timeline" element={<Timeline accessToken={accessToken} username={username} updateUsername={updateUsername} userBio={userBio} updateBio={updateBio} userid={userid} updateUserID={updateUserID} />}></Route>
 
         <Route path="/register" element={<Register></Register>}></Route>
+
+        <Route path="/userpage" element={<UserPage accessToken={accessToken}></UserPage>}></Route>
       </Routes>
     </div>
   )

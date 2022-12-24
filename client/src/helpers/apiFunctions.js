@@ -75,6 +75,22 @@ export async function sendToServerAuthenticated(endpoint, accessToken, data) {
     return response.json();
 }
 
+export async function getFromServer(endpoint) {
+    console.log("*** GET REQUEST TO SERVER ***")
+
+    const options = {
+        method: 'GET',
+        // Headers consist of meta data. We're telling the server that we're sending a JSON.
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }
+
+    const response = await fetch(endpoint, options)
+    return response.json();
+}
+
+
 // // Get from a server endpoint which requires authorization.
 // export async function getFromServerAuthenticated(endpoint, accessToken, data) {
 //     const authBody = 'Bearer ' + accessToken;
