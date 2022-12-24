@@ -28,6 +28,16 @@ router.post("/gettimelineposts", auth_controller.authenticateToken, (req ,res) =
 })
 
 
+// Maybe use this for when the requesting client is not logged in.
+router.get("/userpage/:id", function(req, res) {
+    console.log("GET request to /userpage/id with ID:" + req.params.id)
+    user_controller.getUserPage(req, res);
+})
+
+
+
+
+
 
 module.exports = router;
 

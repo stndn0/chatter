@@ -90,9 +90,21 @@ exports.getTimelinePosts = async (req, res) => {
             console.log(post)
         }
         res.json({ "posts": posts })
-        
+
     } catch (error) {
         console.log(error)
         console.log("Error")
+    }
+}
+
+
+exports.getUserPage = async (req, res) => {
+    try {
+        const userid = req.params.id;
+        const userdb = await User.findOne({ userid: userid }).exec();
+
+        res.json(userdb.username);
+    } catch (error) {
+
     }
 }
