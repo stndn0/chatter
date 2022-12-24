@@ -77,6 +77,7 @@ export async function sendToServerAuthenticated(endpoint, accessToken, data) {
 
 export async function getFromServer(endpoint) {
     console.log("*** GET REQUEST TO SERVER ***")
+    console.log(endpoint)
 
     const options = {
         method: 'GET',

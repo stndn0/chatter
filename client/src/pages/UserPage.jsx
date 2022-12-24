@@ -3,13 +3,33 @@ import './Timeline.css';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { getFromServer } from '../helpers/apiFunctions';
+import Post from '../components/Post';
 
 function UserPage(props) {
+    // We need to initalize a null user. 
+    // The react engine will fall back to this if the state hasn't changed.
+    const nullUser = {
+        username: "",
+        userbio: "",
+        followers: "",
+        following: ""
+    }
+
     const [pageUserId, setPageUserId] = useState(null);
+    const [pageUser, setPageUser] = useState(nullUser);
+    const [pageUserPosts, setPageUserPosts] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
 
     const updatePageUserId = (userid) => {
-        setPageUserId(userid)
+        setPageUserId(userid);
+    }
+
+    const updatePageUserPosts = (arr) => {
+        setPageUserPosts(arr);
+    }
+
+    const updatePageUser = (obj) => {
+        setPageUser(obj);
     }
 
     // Run on first load to get the userid and set the state.
@@ -33,16 +53,38 @@ function UserPage(props) {
         // Send a GET request to the server so that we can get the data
         // we need to render this users page.
 
-        const ENDPOINT_USERPAGE = "http://localhost:5000/user/userpage/" + pageUserId;
-        getFromServer(ENDPOINT_USERPAGE)
-            .then((data => {
-                console.log("*** RESPONSE FROM SERVER ***");
-                console.log(data)
-
-                // TODO - update page state with this data (username, bio etc...)
-                // then populate the rest of the JSX with this information.
-            }))
+        if (pageUserId != null) {
+            const ENDPOINT_USERPAGE = "http://localhost:5000/user/userpage/" + pageUserId;
+            getFromServer(ENDPOINT_USERPAGE)
+                .then((data => {
+                    console.log("*** RESPONSE FROM SERVER ***");
+                    console.log(data)
+                    updatePageUserPosts(data.posts);
+                    updatePageUser(data.user);
+                    console.log(pageUserPosts);
+                    // TODO - update page state with this data (username, bio etc...)
+                    // then populate the rest of the JSX with this information.
+                }))
+        }
     }, [pageUserId])
+
+
+    const displayPosts = () => {
+        const divs = [];
+        if (pageUserPosts != null) {
+            for (let object of pageUserPosts) {
+                divs.push(<Post data={object}></Post>);
+            }
+            console.log(pageUserPosts)
+        }
+
+        return (
+            <div id='timeline-feed'>
+                {divs}
+            </div>
+        )
+    }
+
 
 
     return (
@@ -53,13 +95,14 @@ function UserPage(props) {
                 </div>
 
                 <div id="timeline">
-                    <h2>{pageUserId}'s Profile</h2>
+                    <h2>{pageUser.username}'s Profile</h2>
+                    {displayPosts(props)}
 
                 </div>
 
                 <div id="col-right">
                     <h2>About</h2>
-
+                    <p>{pageUser.userbio}</p>
                 </div>
             </div>
 

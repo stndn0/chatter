@@ -102,9 +102,28 @@ exports.getUserPage = async (req, res) => {
     try {
         const userid = req.params.id;
         const userdb = await User.findOne({ userid: userid }).exec();
+        let userposts = await Post.find({ userid: userid }).sort({ _id: -1 }).exec();
 
-        res.json(userdb.username);
+        // Attach the username to each post
+        for (let post of userposts) {
+            Object.assign(post, { username: userdb.username })
+        }
+
+        const user = {
+            username: userdb.username,
+            userbio: userdb.bio,
+            followers: userdb.followers,
+            following: userdb.following
+        }
+
+
+        // console.log("TEST")
+        // console.log(req.params.id, userdb)
+
+        console.log(userposts)
+
+        res.json({user: user, posts: userposts});
     } catch (error) {
-
+        console.log(error)
     }
 }
