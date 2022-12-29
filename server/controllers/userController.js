@@ -116,13 +116,43 @@ exports.getUserPage = async (req, res) => {
             following: userdb.following
         }
 
-
-        // console.log("TEST")
-        // console.log(req.params.id, userdb)
-
         console.log(userposts)
 
-        res.json({user: user, posts: userposts});
+        res.json({ user: user, posts: userposts });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+exports.followUser = async (req, res) => {
+    try {
+        // Check to make sure the user isn't trying to follow themselves
+        console.log(req.body)
+        const sender = req.body.sender;
+        const userToFollow = req.body.userToFollow;
+
+        if (sender != userToFollow) {
+            // Find the profile that this user wants to follow
+            const userdb = await User.findOne({ userid: userToFollow }).exec();
+
+            // Update the follower count of the user that is being followed
+            const followers = userdb.toJSON().followers;
+            followers.push(sender);
+            const update = await User.updateOne({ userid: userToFollow }, { followers: followers }).exec();
+
+            // Find the profile of the user that is requesting the follow
+            const userdb2 = await User.findOne({ userid: sender }).exec();
+
+            // Update the 'following' array for this user with the id of the profile that they just followed
+            const following = userdb2.toJSON().following;
+            following.push(userToFollow);
+            const update2 = await User.updateOne( {userid: sender}, {following: following}).exec();
+
+            console.log("fin")
+        }
+
+        // Update the database
     } catch (error) {
         console.log(error)
     }

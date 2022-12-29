@@ -47,7 +47,7 @@ function App() {
 
         <Route path="/register" element={<Register></Register>}></Route>
 
-        <Route path="/userpage" element={<UserPage accessToken={accessToken}></UserPage>}></Route>
+        <Route path="/userpage" element={<UserPage accessToken={accessToken} userid={userid}></UserPage>}></Route>
       </Routes>
     </div>
   )

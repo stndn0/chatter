@@ -27,6 +27,11 @@ router.post("/gettimelineposts", auth_controller.authenticateToken, (req ,res) =
     user_controller.getTimelinePosts(req, res);
 })
 
+router.post("/followuser", auth_controller.authenticateToken, (req, res) => {
+    console.log("Server: Received request to /followuser");
+    user_controller.followUser(req, res);
+})
+
 
 // Maybe use this for when the requesting client is not logged in.
 router.get("/userpage/:id", function(req, res) {

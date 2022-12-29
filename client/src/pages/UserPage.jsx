@@ -1,9 +1,12 @@
 import React from 'react';
 import './Timeline.css';
+import './UserPage.css';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
-import { getFromServer } from '../helpers/apiFunctions';
+import { getFromServer, sendToServerAuthenticated } from '../helpers/apiFunctions';
 import Post from '../components/Post';
+
+const ENDPOINT_FOLLOW_USER = "http://localhost:5000/user/followuser";
 
 function UserPage(props) {
     // We need to initalize a null user. 
@@ -86,6 +89,14 @@ function UserPage(props) {
     }
 
 
+    const handleFollowButton = () => {
+        console.log("follow")
+        sendToServerAuthenticated(ENDPOINT_FOLLOW_USER, props.accessToken, { "sender": props.userid, "userToFollow": pageUserId})
+            .then((data => {
+                console.log("*** RESPONSE FROM SERVER ***");
+                console.log(data)
+            }))
+    }
 
     return (
         <div id="page-root">
@@ -95,7 +106,10 @@ function UserPage(props) {
                 </div>
 
                 <div id="timeline">
-                    <h2>{pageUser.username}'s Profile</h2>
+                    <div id="userbox">
+                        <h2>{pageUser.username}'s Profile</h2>
+                        <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>Follow</button>
+                    </div>
                     {displayPosts(props)}
 
                 </div>

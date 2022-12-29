@@ -1,0 +1,12 @@
+#userbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+#button-follow {
+    font-size: 1em;
+    height: 80%;
+    width: 90px;
+}
