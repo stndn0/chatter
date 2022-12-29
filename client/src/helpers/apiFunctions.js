@@ -58,6 +58,7 @@ export async function setUserBio(accessToken, data) {
 // Send to a server endpoint which requires authorization.
 export async function sendToServerAuthenticated(endpoint, accessToken, data) {
     console.log("*** SEND REQUEST TO SERVER ***")
+    console.log(accessToken, data)
 
     const authBody = 'Bearer ' + accessToken;
 

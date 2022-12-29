@@ -22,6 +22,8 @@ function UserPage(props) {
     const [pageUser, setPageUser] = useState(nullUser);
     const [pageUserPosts, setPageUserPosts] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [followButtonText, setFollowButtonText] = useState("Follow")
+
 
     const updatePageUserId = (userid) => {
         setPageUserId(userid);
@@ -35,13 +37,18 @@ function UserPage(props) {
         setPageUser(obj);
     }
 
+    const updateFollowButtonText = (str) => {
+        setFollowButtonText(str);
+    }
+
     // Run on first load to get the userid and set the state.
     useEffect(() => {
         // Get the userid from the URL. 
         // Use trycatch in case a query is not passed.
         try {
             updatePageUserId(searchParams.get('id'));
-            console.log("USERID (First Load):", pageUserId);
+            // console.log("USERID (First Load):", pageUserId);
+            console.log("********UseEffect1*******************")
         } catch (error) {
             console.log(error)
         }
@@ -52,7 +59,7 @@ function UserPage(props) {
     // When this happens, we send a GET request to the server so that we can
     // populate this page with data about this user (e.g. their tweets and so on...)
     useEffect(() => {
-        console.log("USERID (STATE CHANGE):", pageUserId);
+        // console.log("USERID (STATE CHANGE):", pageUserId);
         // Send a GET request to the server so that we can get the data
         // we need to render this users page.
 
@@ -64,21 +71,25 @@ function UserPage(props) {
                     console.log(data)
                     updatePageUserPosts(data.posts);
                     updatePageUser(data.user);
-                    console.log(pageUserPosts);
+
+                    if (data.user.followers.includes(props.userid)) {
+                        updateFollowButtonText("Unfollow");
+                    }
+                    
+                    console.log("EU2", pageUserPosts);
                     // TODO - update page state with this data (username, bio etc...)
                     // then populate the rest of the JSX with this information.
                 }))
         }
     }, [pageUserId])
 
-
+  
     const displayPosts = () => {
         const divs = [];
         if (pageUserPosts != null) {
             for (let object of pageUserPosts) {
                 divs.push(<Post data={object}></Post>);
             }
-            console.log(pageUserPosts)
         }
 
         return (
@@ -93,8 +104,26 @@ function UserPage(props) {
         console.log("follow")
         sendToServerAuthenticated(ENDPOINT_FOLLOW_USER, props.accessToken, { "sender": props.userid, "userToFollow": pageUserId })
             .then((data => {
-                console.log("*** RESPONSE FROM SERVER ***");
-                console.log(data)
+                console.log("*** FOLLOW BUTTON RESPONSE FROM SERVER ***");
+                console.log(data.user.followers)
+
+                // Set the state of the follow button based on whether the client is following the profile.
+                if (data.user.clientIsFollowing === true) {
+                    console.log("IF")
+                    updateFollowButtonText("Unfollow");
+                }
+                else {
+                    console.log("Else")
+                    updateFollowButtonText("Follow");
+                }
+
+
+                // for (let userid of data.user.followers) {
+                //     if (userid === props.userid) {
+                //         console.log("MATCH!!!!")
+                //         updateFollowButtonText("Unfollow");
+                //     }
+                // }
             }))
     }
 
@@ -102,19 +131,20 @@ function UserPage(props) {
     // Function to display the follow button to the client
     // The button is dynamic. It should display a different text depending on whether the client is following the user.
     const renderFollowButton = () => {
-        console.log("Page user")
-        console.log(pageUser.followers)
-        let buttonText = "Follow"
-
         // Go through followers array and see if the client userID is within the array
-        for (let userid of pageUser.followers) {
-            if (userid === props.userid) {
-                buttonText = "Unfollow";
-            }
-        }
+        // console.log(pageUser);
+        // console.log(props.userid)
+
+
+        // for (let userid of pageUser.followers) {
+        //     if (userid === props.userid) {
+        //         console.log("IS FOLLOWING")
+        //         updateFollowButtonText("Unfollow");
+        //     }
+        // }
 
         return(
-            <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>{buttonText}</button>
+            <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>{followButtonText}</button>
         )
 
     }

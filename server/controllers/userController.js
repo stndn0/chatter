@@ -140,6 +140,8 @@ exports.followUser = async (req, res) => {
             const userdb2 = await User.findOne({ userid: sender }).exec();
             const following = userdb2.toJSON().following;
 
+            let clientIsFollowing;
+
             // Check if the client is already following the profile.
             if (followers.includes(sender)) {
                 // If client already following profile then unfollow the profile.
@@ -147,26 +149,35 @@ exports.followUser = async (req, res) => {
                 followers.splice(index, 1);
                 index = following.indexOf(userToFollow);
                 following.splice(index, 1);
+                clientIsFollowing = false;
 
             }
             else {
                 // If client not following profile then follow the profile.
                 followers.push(sender);
                 following.push(userToFollow);
+                clientIsFollowing = true;
             }
-
-            console.log("Value of followers is ", followers)
-
 
             // Update database
             const update = await User.updateOne({ userid: userToFollow }, { followers: followers }).exec();
             const update2 = await User.updateOne({ userid: sender }, { following: following }).exec();
 
 
-            // Update the 'following' array for this user with the id of the profile that they just followed
-            // following.push(userToFollow);
 
-            console.log("fin")
+            // Return to the client updated data about the profile for the user page
+            const data = {
+                username: userdb.username,
+                userid: userdb.userid,
+                userbio: userdb.bio,
+                followers: userdb.followers,
+                following: userdb.following,
+                clientIsFollowing: clientIsFollowing
+            }
+            res.json({ user: data });
+
+
+            console.log("sending: ", data.clientIsFollowing)
         }
 
         // Update the database
