@@ -91,11 +91,32 @@ function UserPage(props) {
 
     const handleFollowButton = () => {
         console.log("follow")
-        sendToServerAuthenticated(ENDPOINT_FOLLOW_USER, props.accessToken, { "sender": props.userid, "userToFollow": pageUserId})
+        sendToServerAuthenticated(ENDPOINT_FOLLOW_USER, props.accessToken, { "sender": props.userid, "userToFollow": pageUserId })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
                 console.log(data)
             }))
+    }
+
+
+    // Function to display the follow button to the client
+    // The button is dynamic. It should display a different text depending on whether the client is following the user.
+    const renderFollowButton = () => {
+        console.log("Page user")
+        console.log(pageUser.followers)
+        let buttonText = "Follow"
+
+        // Go through followers array and see if the client userID is within the array
+        for (let userid of pageUser.followers) {
+            if (userid === props.userid) {
+                buttonText = "Unfollow";
+            }
+        }
+
+        return(
+            <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>{buttonText}</button>
+        )
+
     }
 
     return (
@@ -108,7 +129,8 @@ function UserPage(props) {
                 <div id="timeline">
                     <div id="userbox">
                         <h2>{pageUser.username}'s Profile</h2>
-                        <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>Follow</button>
+                        {/* <button onClick={() => handleFollowButton()} className='button-01' id='button-follow'>Follow</button> */}
+                        {renderFollowButton()}
                     </div>
                     {displayPosts(props)}
 
