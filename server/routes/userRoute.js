@@ -48,6 +48,18 @@ router.get("/fullpost/:postid", function(req, res) {
     user_controller.getUserPost(req, res);
 })
 
+// Route that lets a user reply to a post
+router.post("/newreplypost", auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /newreplypost");
+    user_controller.newReplyPost(req, res);
+})
+
+// Route that gets all replies to a post.
+// Note the route does not require authorization because user replies are public.
+router.get("/replies/:postid", function(req, res) {
+    console.log("GET request to /replies/postid with postid:" + req.params.postid);
+    user_controller.getPostReplies(req, res);
+})
 
 
 

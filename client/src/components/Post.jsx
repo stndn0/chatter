@@ -6,7 +6,6 @@ import './Post.css'
 export default function Post(data) {
     const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
     const postData = data.data;
-    console.log("**** POSTDATA ****", data.data)
 
     const date = new Date(postData.date).toLocaleDateString();
     const time = new Date(postData.date).toLocaleTimeString('en-US');
@@ -31,7 +30,6 @@ export default function Post(data) {
         })
     }
 
-    // console.log("POST DATA: ", postData)
 
     return (
         <div id='post-container'>
@@ -41,7 +39,9 @@ export default function Post(data) {
                 <div id="post-content">
                     <div className="post-username" onClick={() => goToUserProfile(postData.userid)}>{postData.username}</div>
 
-                    <div className="post-body">{postData.post}</div>
+                    <div className="post-body">
+                        {postData.post}
+                    </div>
 
                     <div className="post-bottom-row">
                         {/* <div id='boost'>🔁</div> */}

@@ -5,18 +5,24 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getFromServer, sendToServerAuthenticated, } from "../helpers/apiFunctions";
 import Post from '../components/Post';
+import ReplyComposer from "../components/ReplyComposer";
 
 export default function Reply(props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [postID, setPostID] = useState(null);
   const [postData, setPostData] = useState(null);
+  const [replies, setReplies] = useState(null);
 
   const updatePostID = (postid) => {
     setPostID(postid);
   };
 
   const updatePostData = (data) => {
-    setPostData(data)
+    setPostData(data);
+  };
+
+  const updatePostReplies = (arr) => {
+    setReplies(arr);
   };
 
 
@@ -39,7 +45,9 @@ export default function Reply(props) {
         getFromServer(ENDPOINT_USERPOST).then((data) => {
           console.log("*** RESPONSE FROM SERVER ***");
           updatePostData(data.post);
-          console.log(data);
+          updatePostReplies(data.replyPosts)
+          console.log("REPLY POSTS")
+          console.log(data.replyPosts);
 
         });
       }
@@ -50,11 +58,50 @@ export default function Reply(props) {
   }, [postID]);
 
 
+  // When the post data is acquired, ping the server for replies to this post (if any)
+  // useEffect(() => {
+  //   try {
+  //     if (postID != null) {
+
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }, [replies])
+
+
   const displayUserPost = () => {
     if (postData != null) {
-      console.log("displayUserPost NOT NULL CONDITION")
       return (
         <Post data={postData}></Post>
+      )
+    }
+  }
+
+  const displayReplyComposer = () => {
+    if (postData != null) {
+      return (
+        <ReplyComposer postID={postID} {...props}></ReplyComposer>
+      )
+    }
+  }
+
+  const displayReplies = () => {
+    if (replies != null) {
+      const replyDivs = [];
+
+      console.log("Loop through replies...")
+      for (let object of replies) {
+        if (object != null) {
+          console.log("Obj:", object)
+          replyDivs.push(<Post data={object}></Post>);
+        }
+      }
+
+      return (
+        <div id='timeline-feed'>
+          {replyDivs}
+        </div>
       )
     }
   }
@@ -72,6 +119,10 @@ export default function Reply(props) {
             <h2>Viewing Post</h2>
           </div>
           {displayUserPost()}
+          <h2>Reply</h2>
+          {displayReplyComposer()}
+          <h2>Replies</h2>
+          {displayReplies()}
         </div>
 
         <div id="col-right">

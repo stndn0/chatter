@@ -9,7 +9,6 @@ function PostComposer(props) {
     const [post, setPost] = useState(null);
     const handleTextInput = (event) => {
         setPost(event.target.value)
-        console.log("Post: ", post)
     }
 
     const placeholderText = "What's up, " + props.username + "? Start typing here..."

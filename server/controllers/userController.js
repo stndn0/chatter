@@ -18,13 +18,15 @@ exports.updateUserBio = async (req, res) => {
 }
 
 
-exports.newPost = async (req, res) => {
+exports.newPost = async (req, res, isStandalonePost = true, premadePostId) => {
     try {
-        let postid = crypto.randomBytes(5).toString('hex');
         let date = new Date();
-        // let date = new Date().toLocaleDateString();
-        // let time = new Date().toLocaleTimeString('en-US', { hour12: false })
-        // let datetime = date + '-' + time;
+        let postid = crypto.randomBytes(5).toString('hex');
+
+        // If a postid was not supplied to the function then generate one now.
+        if (premadePostId != null) {
+            postid = premadePostId;
+        }
 
         const data = {
             userid: req.body.userid,
@@ -36,8 +38,13 @@ exports.newPost = async (req, res) => {
             // time: time,
             // datetime: datetime,
             replies: [],
-            isStandalonePost: true,
+            isStandalonePost: isStandalonePost,
         }
+
+        if (!isStandalonePost) {
+            Object.assign(data, { replyingTo: req.body.postIDToReplyTo })
+        }
+
 
         console.log(data)
 
@@ -186,33 +193,91 @@ exports.followUser = async (req, res) => {
     }
 }
 
-
+// Get data pertaining to a post and all posts that are replies to it.
 exports.getUserPost = async (req, res) => {
     try {
-        // Get the post and it's author
+        // Get the full post and it's author
         const postid = req.params.postid;
         const post = await Post.find({ postid: postid }).exec();
         const postAuthor = await User.findOne({ userid: post[0].userid }).exec();
-
-        // console.log(post[0].userid);
-        // console.log(postAuthor);
 
         // The post object itself doesn't have a username (only a userid)
         // Lookup the userid attached to the post to find the author.
         // Attach the author to the post object and then return the object.
         Object.assign(post[0], { username: postAuthor.username })
 
-        console.log(post[0]);
+        // Lookup the postids for all posts that are replies to this post
+        const postReplies = post[0].replies;
+        const replyPosts = [];
 
-        // // Attach the username to each post
-        // for (let post of userposts) {
-        //     Object.assign(post, { username: userdb.username })
-        // }
+        for (let replyPostId of postReplies) {
+            console.log(replyPostId)
+            if (replyPostId != null) {
+                // Lookup post in db. Append it to the array.
+                // Lookup post username in db. Append it to the replyPost object.
+                let replyPost = await Post.find({ postid: replyPostId }).exec();
+                let replyPostUserId = replyPost[0].userid;
+                let replyPostUser = await User.findOne({ userid: replyPostUserId }).exec();
+                let username = replyPostUser.username;
+                Object.assign(replyPost[0], { username: username })
+                replyPosts.push(replyPost[0]);
 
-        // console.log(userposts)
+                console.log("Fin iteration")
+            }
+        }
 
-        res.json({ post: post[0] });
+
+        console.log(replyPosts);
+        res.json({ post: post[0], replyPosts: replyPosts });
     } catch (error) {
         console.log(error)
     }
 }
+
+
+exports.newReplyPost = async (req, res) => {
+    try {
+        console.log(req.body);
+        const postid = req.body.postIDToReplyTo.trim();
+        const reply = req.body.post.trim();
+
+        console.log(reply.length)
+
+        if (reply !== null && reply.length != 0 && reply != undefined && reply != "") {
+            console.log("REPLY: ", reply);
+            console.log("INSIDE IF. reply length is", reply.length)
+
+            let post = await Post.find({ postid: postid }).exec();
+            post = post[0];
+
+            // Create a new post
+            let postIdForNewPost = crypto.randomBytes(5).toString('hex');
+            this.newPost(req, res, false, postIdForNewPost)
+
+            // Append the postid of this new post to the replies array
+            const replies = post.toJSON().replies;
+            replies.push(postIdForNewPost);
+            await Post.updateOne({ postid: postid }, { replies: replies }).exec();
+
+            console.log("Fin")
+            res.json({ "Server Response": "Success" })
+        }
+        else {
+            res.json({ "Server Response": "Error when handling reply." })
+        }
+
+
+    } catch (error) {
+        console.log(error)
+        console.log("\nCould not reply to post. Probably an invalid reply string.")
+    }
+}
+
+
+// exports.getPostReplies = async (req, res) => {
+//     try {
+//         // Find out 
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
