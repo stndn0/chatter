@@ -33,12 +33,20 @@ router.post("/followuser", auth_controller.authenticateToken, (req, res) => {
 })
 
 
-// Maybe use this for when the requesting client is not logged in.
+// Route to display user profile.
+// Note the route does not require authorization because user profiles are public.
 router.get("/userpage/:id", function(req, res) {
     console.log("GET request to /userpage/id with ID:" + req.params.id)
     user_controller.getUserPage(req, res);
 })
 
+
+// Route to display a users post and the replies to that post.
+// Note the route does not require authorization because user posts are public.
+router.get("/fullpost/:postid", function(req, res) {
+    console.log("GET request to /fullpost/postid with postid:" + req.params.postid);
+    user_controller.getUserPost(req, res);
+})
 
 
 

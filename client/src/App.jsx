@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import UserPage from './pages/UserPage';
-import Reply from './pages/Reply';
+import FullPost from './pages/FullPost';
 
 function App() {
   // Store back-end data
@@ -50,7 +50,7 @@ function App() {
 
         <Route path="/userpage" element={<UserPage accessToken={accessToken} userid={userid}></UserPage>}></Route>
 
-        <Route path="/reply" element={<Reply accessToken={accessToken} userid={userid}></Reply>}></Route>
+        <Route path="/fullpost" element={<FullPost accessToken={accessToken} userid={userid}></FullPost>}></Route>
       </Routes>
     </div>
   )

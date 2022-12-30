@@ -185,3 +185,34 @@ exports.followUser = async (req, res) => {
         console.log(error)
     }
 }
+
+
+exports.getUserPost = async (req, res) => {
+    try {
+        // Get the post and it's author
+        const postid = req.params.postid;
+        const post = await Post.find({ postid: postid }).exec();
+        const postAuthor = await User.findOne({ userid: post[0].userid }).exec();
+
+        // console.log(post[0].userid);
+        // console.log(postAuthor);
+
+        // The post object itself doesn't have a username (only a userid)
+        // Lookup the userid attached to the post to find the author.
+        // Attach the author to the post object and then return the object.
+        Object.assign(post[0], { username: postAuthor.username })
+
+        console.log(post[0]);
+
+        // // Attach the username to each post
+        // for (let post of userposts) {
+        //     Object.assign(post, { username: userdb.username })
+        // }
+
+        // console.log(userposts)
+
+        res.json({ post: post[0] });
+    } catch (error) {
+        console.log(error)
+    }
+}

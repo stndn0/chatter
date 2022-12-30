@@ -6,6 +6,8 @@ import './Post.css'
 export default function Post(data) {
     const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
     const postData = data.data;
+    console.log("**** POSTDATA ****", data.data)
+
     const date = new Date(postData.date).toLocaleDateString();
     const time = new Date(postData.date).toLocaleTimeString('en-US');
 
@@ -23,13 +25,13 @@ export default function Post(data) {
     // Called when the user clicks on the reply button for a post.
     const goToReply = (postid) => {
         navigate({
-            pathname: '/reply',
+            pathname: '/fullpost',
             search: '?postid=' + postid,
             postid: postid
         })
     }
 
-    console.log("POST DATA: ", postData)
+    // console.log("POST DATA: ", postData)
 
     return (
         <div id='post-container'>
