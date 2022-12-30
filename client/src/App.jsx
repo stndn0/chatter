@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import UserPage from './pages/UserPage';
+import Reply from './pages/Reply';
 
 function App() {
   // Store back-end data
@@ -48,6 +49,8 @@ function App() {
         <Route path="/register" element={<Register></Register>}></Route>
 
         <Route path="/userpage" element={<UserPage accessToken={accessToken} userid={userid}></UserPage>}></Route>
+
+        <Route path="/reply" element={<Reply accessToken={accessToken} userid={userid}></Reply>}></Route>
       </Routes>
     </div>
   )

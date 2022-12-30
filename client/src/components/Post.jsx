@@ -5,7 +5,6 @@ import './Post.css'
 
 export default function Post(data) {
     const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
-    console.log("Inside Post Component")
     const postData = data.data;
     const date = new Date(postData.date).toLocaleDateString();
     const time = new Date(postData.date).toLocaleTimeString('en-US');
@@ -14,20 +13,23 @@ export default function Post(data) {
     // Tell the server to get information about that username so that we can 
     // display their page.
     const goToUserProfile = (userid) => {
-        // event.preventDefault();
-        // const ENDPOINT_USERPAGE = "http://localhost:5000/user/userpage/" + userid;
-        // getFromServer(ENDPOINT_USERPAGE)
-        //     .then((data => {
-        //         console.log("*** RESPONSE FROM SERVER ***");
-        //         console.log(data)
-        //     }))
-
         navigate({
             pathname: '/userpage',
             search: '?id=' + userid,
             id: userid
         })
     }
+
+    // Called when the user clicks on the reply button for a post.
+    const goToReply = (postid) => {
+        navigate({
+            pathname: '/reply',
+            search: '?postid=' + postid,
+            postid: postid
+        })
+    }
+
+    console.log("POST DATA: ", postData)
 
     return (
         <div id='post-container'>
@@ -39,13 +41,11 @@ export default function Post(data) {
 
                     <div className="post-body">{postData.post}</div>
 
-
-
                     <div className="post-bottom-row">
                         {/* <div id='boost'>🔁</div> */}
                         <div id="post-social-items">
                             <div id='like'>💗</div>
-                            <div id='reply'>🗨️</div>
+                            <div id='reply' onClick={() => goToReply(postData.postid)}>🗨️</div>
                         </div>
                         <div className="post-time"> {date} at {time}</div>
                     </div>

@@ -59,3 +59,7 @@
     justify-content: space-between;
     width: 15%;
 }
+
+#reply, #like {
+    cursor: pointer;
+}
