@@ -272,12 +272,3 @@ exports.newReplyPost = async (req, res) => {
         console.log("\nCould not reply to post. Probably an invalid reply string.")
     }
 }
-
-
-// exports.getPostReplies = async (req, res) => {
-//     try {
-//         // Find out 
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
