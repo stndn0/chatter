@@ -62,9 +62,6 @@ export default function Timeline(props) {
 
         for (let object of timelinePosts)  {
             divs.push(<Post data={object}></Post>);
-            // for (let object of array) {
-            //     divs.push(<Post data={object}></Post>);
-            // }
         }
 
         console.log(divs)
