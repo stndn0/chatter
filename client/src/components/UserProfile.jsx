@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import { setUserBio } from '../helpers/apiFunctions';
 import './UserProfile.css'
 
 function UserProfile(props) {
+    const navigate = useNavigate();   
     const textareaRef = React.useRef(null);
     const [value, setValue] = React.useState("");
 
@@ -66,6 +68,14 @@ function UserProfile(props) {
         )
     }
 
+
+    const goToSettings = () => {
+        navigate({
+            pathname: '/settings'
+        })
+    }
+
+
     return (
         <div id='userprofile-container'>
             <div id="user-profile">
@@ -73,6 +83,7 @@ function UserProfile(props) {
                 {textArea()}
             </div>
             <button className="button-01" onClick={() => sendUpdatedBioToServer()}>Update Bio</button>
+            <button className="button-01" onClick={() => goToSettings()}>Settings</button>
         </div>
     )
 }

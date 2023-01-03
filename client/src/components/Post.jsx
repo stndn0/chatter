@@ -4,7 +4,7 @@ import { getFromServer } from '../helpers/apiFunctions';
 import './Post.css'
 
 export default function Post(data) {
-    const navigate = useNavigate();   // We use this hook to redirect the user to the timeline upon login.
+    const navigate = useNavigate();   
     const postData = data.data;
 
     const date = new Date(postData.date).toLocaleDateString();

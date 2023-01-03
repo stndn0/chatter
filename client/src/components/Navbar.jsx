@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './Navbar.css';
 import notificationIcon01 from '../assets/icons/notifications-circle.svg';
 import logoutIcon01 from '../assets/icons/log-out-outline.svg';
@@ -15,11 +15,20 @@ function Navbar(props) {
         console.log("*** Logout *** ")
     }
 
+    const goToTimeline = (props) => {
+        if (props.accessToken != null && props.accessToken != undefined) {
+            navigate("/timeline")
+        }
+        else {
+            navigate("/login")
+        }
+    }
+
     return (
         <div id="navbar-container">
             <div id="navbar-parent">
                 <div id="navbar-lhs">
-                    <p className='logo'>Chatter 🦜</p>
+                    <p className='logo' onClick={() => goToTimeline(props)}>Chatter 🦜</p>
                 </div>
                 <div id="navbar-rhs">
                     <div id="user-contents">

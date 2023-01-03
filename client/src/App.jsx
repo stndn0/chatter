@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import UserPage from './pages/UserPage';
 import FullPost from './pages/FullPost';
+import Settings from './pages/Settings';
 
 function App() {
   // Store back-end data
@@ -38,7 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar accessToken={accessToken} updateAccessToken={updateAccessToken} />
+      <Navbar accessToken={accessToken} updateAccessToken={updateAccessToken} userid={userid} updateUserID={updateUserID} />
       <Routes>
         {/* <Route path="/" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken} />}></Route> */}
 
@@ -51,6 +52,8 @@ function App() {
         <Route path="/userpage" element={<UserPage accessToken={accessToken} userid={userid}></UserPage>}></Route>
 
         <Route path="/fullpost" element={<FullPost accessToken={accessToken} userid={userid}></FullPost>}></Route>
+
+        <Route path="/settings" element={<Settings accessToken={accessToken} userid={userid}></Settings>}></Route>
       </Routes>
     </div>
   )
