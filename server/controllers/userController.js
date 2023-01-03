@@ -289,3 +289,7 @@ exports.getSettingsPageData = async (req, res) => {
 
     res.json({avatars: avatars})
 }
+
+exports.setAvatar = async (req, res) => {
+    console.log("Set avatar logic...", req.body)
+}

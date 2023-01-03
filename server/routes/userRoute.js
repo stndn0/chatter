@@ -61,6 +61,12 @@ router.post("/settingspage", auth_controller.authenticateToken, (req, res) => {
     user_controller.getSettingsPageData(req, res);
 })
 
+
+router.post('/setavatar', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /setavatar");
+    user_controller.setAvatar(req, res);
+})
+
 // Route that gets all replies to a post.
 // Note the route does not require authorization because user replies are public.
 // router.get("/replies/:postid", function(req, res) {

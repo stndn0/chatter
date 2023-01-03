@@ -23,4 +23,27 @@
     height: 112px;
     border-radius: 8px;
     cursor: pointer;
+    border: 6px solid rgba(0, 0, 0, 0);
 }
+
+.avatar-img-selected {
+    width: 112px;
+    height: 112px;
+    border-radius: 8px;
+    border: 6px solid #ed215b;
+    cursor: pointer;
+}
+
+/* #general-settings-container {
+    display: flex;
+    flex-direction: column;
+} */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* input, button {
+    width: 400px;
+} */
