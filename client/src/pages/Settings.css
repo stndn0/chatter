@@ -1,0 +1,26 @@
+#settings-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#settings-container {
+    width: 70%;
+    /* border: 1px solid red; */
+}
+
+#avatar-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    /* border: 1px solid yellow; */
+    height: 40vh;
+}
+
+.avatar-img {
+    width: 112px;
+    height: 112px;
+    border-radius: 8px;
+    cursor: pointer;
+}

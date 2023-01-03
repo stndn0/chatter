@@ -54,6 +54,13 @@ router.post("/newreplypost", auth_controller.authenticateToken, (req, res) => {
     user_controller.newReplyPost(req, res);
 })
 
+
+// Route that returns page data for the user settings page.
+router.post("/settingspage", auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /settingspage");
+    user_controller.getSettingsPageData(req, res);
+})
+
 // Route that gets all replies to a post.
 // Note the route does not require authorization because user replies are public.
 // router.get("/replies/:postid", function(req, res) {
