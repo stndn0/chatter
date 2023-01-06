@@ -61,7 +61,8 @@ export default function Timeline(props) {
         const divs = [];
 
         for (let object of timelinePosts)  {
-            divs.push(<Post data={object}></Post>);
+            Object.assign(object, {accessToken: props.accessToken, clientuserid: props.userid})
+            divs.push(<Post data={object} ></Post>);
         }
 
         console.log(divs)

@@ -18,6 +18,8 @@ export default function Reply(props) {
   };
 
   const updatePostData = (data) => {
+    let postData = data;
+    Object.assign(postData, {accessToken: props.accessToken, clientuserid: props.userid})
     setPostData(data);
   };
 
@@ -72,6 +74,7 @@ export default function Reply(props) {
 
   const displayUserPost = () => {
     if (postData != null) {
+      console.log("Postdata:", postData)
       return (
         <Post data={postData}></Post>
       )

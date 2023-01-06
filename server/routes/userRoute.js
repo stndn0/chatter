@@ -67,6 +67,13 @@ router.post('/setavatar', auth_controller.authenticateToken, (req, res) => {
     user_controller.setAvatar(req, res);
 })
 
+
+router.post('/likepost', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /likepost");
+    user_controller.likePost(req, res);
+})
+
+
 // Route that gets all replies to a post.
 // Note the route does not require authorization because user replies are public.
 // router.get("/replies/:postid", function(req, res) {

@@ -88,6 +88,7 @@ function UserPage(props) {
     const divs = [];
     if (pageUserPosts != null) {
       for (let object of pageUserPosts) {
+        Object.assign(object, {accessToken: props.accessToken, clientuserid: props.userid})
         divs.push(<Post data={object}></Post>);
       }
     }

@@ -33,6 +33,7 @@ exports.newPost = async (req, res, isStandalonePost = true, premadePostId) => {
             postid: postid,
             post: req.body.post,
             likes: 0,
+            likedby: [],
             reposts: 0,
             date: date,
             // time: time,
@@ -274,6 +275,45 @@ exports.newReplyPost = async (req, res) => {
 }
 
 
+exports.likePost = async (req, res) => {
+    // https://www.tutorialsteacher.com/mongodb/update-arrays
+    try {
+        // Load database document for this post
+        const userid = req.body.userid;     // user who is doing the liking
+        const postid = req.body.postid;     // the post the user wants to like
+        const post = await Post.find({ postid: postid }).exec();
+
+        // Check if user has already liked post.
+        if (post[0].likedby.includes(userid)) {
+            // Remove userid from likedby
+            await Post.updateOne({ postid: postid }, { $pull: { "likedby": userid } })
+
+            // Decrement liked count. 
+            await Post.updateOne({ postid: postid }, { $inc: { likes: -1 } })
+            console.log(userid, "has unliked post", postid)
+
+        }
+        else if (!post[0].likedby.includes(userid)) {
+            // Push userid to likedBy
+            await Post.updateOne({ postid: postid }, { $push: { "likedby": userid } })
+
+            // Increment liked count. 
+            await Post.updateOne({ postid: postid }, { $inc: { likes: 1 } })
+            console.log(userid, "has liked post", postid)
+        }
+
+        // If user has already liked post, decrement like count and update likedBy
+
+        // If user has not liked post, increment like count and updated likedBy
+
+        return res.json({"msg": "success"})
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 exports.getSettingsPageData = async (req, res) => {
     const avatars = {
@@ -287,7 +327,7 @@ exports.getSettingsPageData = async (req, res) => {
         "a8": "https://imgur.com/dAtQyfN"
     }
 
-    res.json({avatars: avatars})
+    res.json({ avatars: avatars })
 }
 
 exports.setAvatar = async (req, res) => {

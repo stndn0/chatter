@@ -15,7 +15,11 @@ const postSchema = new Schema({
         required: true
     },
     likes: {
-        type: String,
+        type: Number,
+        required: true
+    },
+    likedby: {
+        type: Array,
         required: true
     },
     reposts: {
