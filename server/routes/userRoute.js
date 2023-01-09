@@ -62,15 +62,27 @@ router.post("/settingspage", auth_controller.authenticateToken, (req, res) => {
 })
 
 
+router.post('/likepost', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /likepost");
+    user_controller.likePost(req, res);
+})
+
+
 router.post('/setavatar', auth_controller.authenticateToken, (req, res) => {
     console.log("POST request to /setavatar");
     user_controller.setAvatar(req, res);
 })
 
 
-router.post('/likepost', auth_controller.authenticateToken, (req, res) => {
-    console.log("POST request to /likepost");
-    user_controller.likePost(req, res);
+router.post('/updateusername', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /updateusername");
+    console.log("Body:", req.body)
+})
+
+
+router.post('/updatepassword', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /updatepassword");
+    console.log("Body:", req.body)
 })
 
 

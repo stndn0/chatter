@@ -5,10 +5,15 @@ import './Settings.css'
 
 const ENDPOINT_GET_SETTINGS = "http://localhost:5000/user/settingspage";
 const ENDPOINT_SET_AVATAR = "http://localhost:5000/user/setavatar";
+const ENDPOINT_UPDATE_USERNAME = "http://localhost:5000/user/updateusername";
+const ENDPOINT_UPDATE_PASSWORD = "http://localhost:5000/user/updatepassword";
 
 function Settings(props) {
     const [avatarList, setAvatarList] = useState(null);
     const [currentAvatarSelection, setCurrentAvatarSelection] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password1, setPassword1] = useState(null);
+    const [password2, setPassword2] = useState(null);
 
     const updateAvatarList = (object) => {
         setAvatarList(object)
@@ -16,6 +21,17 @@ function Settings(props) {
 
     const updateCurrentAvatarSelection = (id) => {
         setCurrentAvatarSelection(id)
+    }
+
+    // Gets the values of the input fields and updates the state.
+    const handleUsernameInput = event => {
+        setUsername(event.target.value)
+    }
+    const handlePassword1Input = event => {
+        setPassword1(event.target.value)
+    }
+    const handlePassword2Input = event => {
+        setPassword2(event.target.value)
     }
 
 
@@ -28,12 +44,6 @@ function Settings(props) {
     useEffect(() => {
         console.log("avatarlist update: ", avatarList)
     }, [avatarList])
-
-
-    // useEffect(() => {
-    //     console.log("DISPLAY OUTLINE NOW")
-    //     displayAvatarOutline()
-    // }, [currentAvatarSelection])
 
 
     const getAvatarsFromServer = () => {
@@ -49,8 +59,6 @@ function Settings(props) {
     const displayAvatarContainer = () => {
         const avatarDivs = [];
         if (avatarList != null) {
-            console.log("INNER ALIST", avatarList);
-
             for (const avatar of Object.keys(avatarList)) {
                 let avatarid = avatar;
                 let avatarUrl = avatarList[avatar] + '.jpeg';
@@ -60,9 +68,7 @@ function Settings(props) {
                     imgDiv = <img src={avatarUrl} className='avatar-img-selected' id={avatarid}></img>
                 }
                 avatarDivs.push(imgDiv)
-                console.log(avatarid, avatarUrl)
             }
-            console.log(avatarDivs)
         }
 
         return (
@@ -97,6 +103,28 @@ function Settings(props) {
         }
     }
 
+    const updateUsername = () => {
+        event.preventDefault();
+        let userid = props.userid;
+        console.log(username)
+        sendToServerAuthenticated(ENDPOINT_UPDATE_USERNAME, props.accessToken, { userid, username })
+            .then((data => {
+                console.log("*** RESPONSE FROM SERVER ***");
+            }))
+    }
+
+
+    const updatePassword = () => {
+        event.preventDefault();
+        let userid = props.userid;
+        sendToServerAuthenticated(ENDPOINT_UPDATE_PASSWORD, props.accessToken, { userid, password1, password2 })
+            .then((data => {
+                console.log("*** RESPONSE FROM SERVER ***");
+            }))
+    }
+
+
+
 
 
 
@@ -110,16 +138,17 @@ function Settings(props) {
                     <h2>Update Username</h2>
                     <form id="username-form">
                         <label>Username</label>
-                        <input name="username" type="text" id="username" className="textbox" placeholder="Type your username" ></input>
-                        <button>Update Username</button>
+                        <input name="username" type="text" id="username" className="textbox" placeholder="Type your username" onChange={handleUsernameInput} ></input>
+                        <button onClick={() => updateUsername()}>Update Username</button>
                     </form>
+
                     <h2>Update Password</h2>
                     <form id="password-form">
                         <label>Password</label>
-                        <input name="password1" type="text" id="password1" className="textbox" placeholder="Type your password"></input>
+                        <input name="password1" type="text" id="password1" className="textbox" placeholder="Type your password" onChange={handlePassword1Input}></input>
                         <label>Password (Verify)</label>
-                        <input name="password2" type="text" id="password2" className="textbox" placeholder="Type your password again"></input>
-                        <button>Update Password</button>
+                        <input name="password2" type="text" id="password2" className="textbox" placeholder="Type your password again" onChange={handlePassword2Input}></input>
+                        <button onClick={() => updatePassword()}>Update Password</button>
                     </form>
                 </div>
             </div>
