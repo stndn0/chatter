@@ -45,7 +45,9 @@ export default function Post(data) {
     return (
         <div id='post-container'>
             <div id='post'>
-                <div className="post-profile-pic"></div>
+                <div className="post-profile-pic-container">
+                    <img className="post-profile-pic" src={postData.avatar + '.jpeg'}></img>
+                </div>
 
                 <div id="post-content">
                     {/* <div>userid is: {postData.userid}</div> */}

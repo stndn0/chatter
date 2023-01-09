@@ -48,7 +48,8 @@ exports.verifyRegistrationInput = async (req, res) => {
                     "date": date,
                     "userid": userid,
                     "following": [],
-                    "followers": []
+                    "followers": [],
+                    "avatar": "https://imgur.com/2lTANU7"
                 })
 
                 console.log(result)

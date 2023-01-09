@@ -63,3 +63,8 @@
 #reply, #like {
     cursor: pointer;
 }
+
+.post-profile-pic {
+    height: 64px;
+    width: 64px;
+}

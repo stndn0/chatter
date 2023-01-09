@@ -4,6 +4,7 @@ const Post = require('../models/Post');
 // Used to generate random string
 const crypto = require('crypto');
 const { post } = require('../routes/userRoute');
+const { getAvatars } = require('../models/Avatars');
 
 exports.updateUserBio = async (req, res) => {
     try {
@@ -71,13 +72,15 @@ exports.getTimelinePosts = async (req, res) => {
         const timelinePosts = [];
         for (followedUserID of following) {
             // Get post data
-            let followedUserPosts = await Post.find({ userid: followedUserID }).sort({ _id: -1 }).exec();
+            let followedUserPosts = await Post.find({ userid: followedUserID }).sort({ _id: -1 }).lean().exec();
 
             timelinePosts.push(followedUserPosts);
         }
 
         // Get the users own posts
-        const myPosts = await Post.find({ userid: userid }).sort({ _id: -1 }).exec();
+        // IMPORTANT! Must call lean() if you want to add stuff to objects.
+        // See https://stackoverflow.com/questions/18554350/unable-to-add-properties-to-js-object
+        const myPosts = await Post.find({ userid: userid }).sort({ _id: -1 }).lean().exec();
         timelinePosts.push(myPosts);
 
         // Merge (1) followed posts and (2) user posts into a single array.
@@ -94,9 +97,12 @@ exports.getTimelinePosts = async (req, res) => {
         for (let post of posts) {
             let currentUser = await User.findOne({ userid: post.userid }).exec();
             let username = currentUser.toJSON().username;
-            Object.assign(post, { username: username })
-            console.log(post)
+            let avatar = currentUser.toJSON().avatar;
+            Object.assign(post, { username: username, avatar: avatar })
         }
+
+        console.log("Timeline Posts", posts)
+
         res.json({ "posts": posts })
 
     } catch (error) {
@@ -109,12 +115,12 @@ exports.getTimelinePosts = async (req, res) => {
 exports.getUserPage = async (req, res) => {
     try {
         const userid = req.params.id;
-        const userdb = await User.findOne({ userid: userid }).exec();
-        let userposts = await Post.find({ userid: userid }).sort({ _id: -1 }).exec();
+        const userdb = await User.findOne({ userid: userid }).lean().exec();
+        let userposts = await Post.find({ userid: userid }).sort({ _id: -1 }).lean().exec();
 
         // Attach the username to each post
         for (let post of userposts) {
-            Object.assign(post, { username: userdb.username })
+            Object.assign(post, { username: userdb.username, avatar: userdb.avatar })
         }
 
         const user = {
@@ -199,13 +205,13 @@ exports.getUserPost = async (req, res) => {
     try {
         // Get the full post and it's author
         const postid = req.params.postid;
-        const post = await Post.find({ postid: postid }).exec();
-        const postAuthor = await User.findOne({ userid: post[0].userid }).exec();
+        const post = await Post.find({ postid: postid }).lean().exec();
+        const postAuthor = await User.findOne({ userid: post[0].userid }).lean().exec();
 
         // The post object itself doesn't have a username (only a userid)
         // Lookup the userid attached to the post to find the author.
         // Attach the author to the post object and then return the object.
-        Object.assign(post[0], { username: postAuthor.username })
+        Object.assign(post[0], { username: postAuthor.username, avatar: postAuthor.avatar })
 
         // Lookup the postids for all posts that are replies to this post
         const postReplies = post[0].replies;
@@ -216,11 +222,12 @@ exports.getUserPost = async (req, res) => {
             if (replyPostId != null) {
                 // Lookup post in db. Append it to the array.
                 // Lookup post username in db. Append it to the replyPost object.
-                let replyPost = await Post.find({ postid: replyPostId }).exec();
+                let replyPost = await Post.find({ postid: replyPostId }).lean().exec();
                 let replyPostUserId = replyPost[0].userid;
-                let replyPostUser = await User.findOne({ userid: replyPostUserId }).exec();
+                let replyPostUser = await User.findOne({ userid: replyPostUserId }).lean().exec();
                 let username = replyPostUser.username;
-                Object.assign(replyPost[0], { username: username })
+                let avatar = replyPostUser.avatar;
+                Object.assign(replyPost[0], { username: username, avatar: avatar })
                 replyPosts.push(replyPost[0]);
 
                 console.log("Fin iteration")
@@ -306,7 +313,7 @@ exports.likePost = async (req, res) => {
 
         // If user has not liked post, increment like count and updated likedBy
 
-        return res.json({"msg": "success"})
+        return res.json({ "msg": "success" })
 
     } catch (error) {
         console.log(error)
@@ -316,20 +323,20 @@ exports.likePost = async (req, res) => {
 
 
 exports.getSettingsPageData = async (req, res) => {
-    const avatars = {
-        "a1": "https://imgur.com/ynIEbbo",
-        "a2": "https://imgur.com/9sZD0NV",
-        "a3": "https://imgur.com/sTJassi",
-        "a4": "https://imgur.com/ndvDAFH",
-        "a5": "https://imgur.com/10n3NXr",
-        "a6": "https://imgur.com/c0YHoln",
-        "a7": "https://imgur.com/2lTANU7",
-        "a8": "https://imgur.com/dAtQyfN"
-    }
-
-    res.json({ avatars: avatars })
+    res.json({ avatars: getAvatars() })
 }
 
 exports.setAvatar = async (req, res) => {
+    try {
+        const avatarSelection = req.body.currentAvatarSelection;
+        const avatars = getAvatars();
+        const avatarUrl = avatars[avatarSelection];
+
+        // Set the avatar on the database
+        await User.updateOne({ userid: req.body.userid }, { avatar: avatarUrl }).exec();
+
+    } catch (error) {
+        console.log(error)
+    }
     console.log("Set avatar logic...", req.body)
 }
