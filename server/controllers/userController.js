@@ -313,7 +313,7 @@ exports.likePost = async (req, res) => {
 
         // If user has not liked post, increment like count and updated likedBy
 
-        return res.json({ "msg": "success" })
+        return res.json({ "response": 200 })
 
     } catch (error) {
         console.log(error)
@@ -339,4 +339,50 @@ exports.setAvatar = async (req, res) => {
         console.log(error)
     }
     console.log("Set avatar logic...", req.body)
+}
+
+exports.updateUsername = async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const newusername = req.body.username;
+
+        if (newusername != null && newusername.length >= 3 && newusername.length < 20 && newusername != undefined) {
+            // Update username
+            await User.updateOne({ userid: userid }, { username: newusername }).exec();
+            return res.json({ "response": 200, "newusername": newusername })
+        }
+        else {
+            return res.json({ "response": 400 })
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+exports.updatePassword = async (req, res) => {
+    try {
+        const userid = req.body.userid;
+        const pass1 = req.body.password1;
+        const pass2 = req.body.password2;
+
+        if (pass1.length > 3 && pass2.length > 3 && pass1 != null && pass2 != null) {
+            if (pass1 === pass2 && pass1.length < 20 && pass2.length < 20) {
+                // Update password
+                await User.updateOne({ userid: userid }, { password: pass1 }).exec();
+                return res.json({ "response": 200 });
+            }
+            else {
+                return res.json({ "response": 400 });
+            }
+        }
+        else {
+            return res.json({ "response": 400 });
+        }
+
+
+    } catch (error) {
+        console.log(error)
+    }
 }

@@ -76,13 +76,15 @@ router.post('/setavatar', auth_controller.authenticateToken, (req, res) => {
 
 router.post('/updateusername', auth_controller.authenticateToken, (req, res) => {
     console.log("POST request to /updateusername");
-    console.log("Body:", req.body)
+    console.log("Body:", req.body);
+    user_controller.updateUsername(req, res);
 })
 
 
 router.post('/updatepassword', auth_controller.authenticateToken, (req, res) => {
     console.log("POST request to /updatepassword");
-    console.log("Body:", req.body)
+    console.log("Body:", req.body);
+    user_controller.updatePassword(req, res);
 })
 
 

@@ -110,6 +110,11 @@ function Settings(props) {
         sendToServerAuthenticated(ENDPOINT_UPDATE_USERNAME, props.accessToken, { userid, username })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
+                console.log(data);
+                if (data.response === 200) {
+                    console.log("success")
+                    props.updateUsername(data.newusername);
+                }
             }))
     }
 
@@ -120,6 +125,7 @@ function Settings(props) {
         sendToServerAuthenticated(ENDPOINT_UPDATE_PASSWORD, props.accessToken, { userid, password1, password2 })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
+                console.log(data);
             }))
     }
 

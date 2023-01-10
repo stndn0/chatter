@@ -53,7 +53,7 @@ function App() {
 
         <Route path="/fullpost" element={<FullPost accessToken={accessToken} userid={userid}></FullPost>}></Route>
 
-        <Route path="/settings" element={<Settings accessToken={accessToken} userid={userid}></Settings>}></Route>
+        <Route path="/settings" element={<Settings accessToken={accessToken} userid={userid} updateUsername={updateUsername}></Settings>}></Route>
       </Routes>
     </div>
   )
