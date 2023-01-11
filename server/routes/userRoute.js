@@ -88,4 +88,11 @@ router.post('/updatepassword', auth_controller.authenticateToken, (req, res) => 
 })
 
 
+router.post('/deletepost', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /deletepost");
+    console.log("Body:", req.body);
+    user_controller.deletePost(req, res);
+})
+
+
 module.exports = router;

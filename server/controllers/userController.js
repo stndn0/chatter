@@ -104,7 +104,7 @@ exports.getTimelinePosts = async (req, res) => {
             Object.assign(post, { username: username, avatar: avatar })
         }
 
-        console.log("Timeline Posts", posts)
+        // console.log("Timeline Posts", posts)
 
         res.json({ "posts": posts })
 
@@ -211,6 +211,8 @@ exports.getUserPost = async (req, res) => {
         const post = await Post.find({ postid: postid }).lean().exec();
         const postAuthor = await User.findOne({ userid: post[0].userid }).lean().exec();
 
+        console.log("DEBUG: Post id is ", postid);
+
         // The post object itself doesn't have a username (only a userid)
         // Lookup the userid attached to the post to find the author.
         // Attach the author to the post object and then return the object.
@@ -221,11 +223,12 @@ exports.getUserPost = async (req, res) => {
         const replyPosts = [];
 
         for (let replyPostId of postReplies) {
-            console.log(replyPostId)
+            console.log("DEBUG: replyPostId: ", replyPostId)
             if (replyPostId != null) {
                 // Lookup post in db. Append it to the array.
                 // Lookup post username in db. Append it to the replyPost object.
                 let replyPost = await Post.find({ postid: replyPostId }).lean().exec();
+                console.log("DEBUG: reply post is", replyPost)
                 let replyPostUserId = replyPost[0].userid;
                 let replyPostUser = await User.findOne({ userid: replyPostUserId }).lean().exec();
                 let username = replyPostUser.username;
@@ -271,7 +274,6 @@ exports.newReplyPost = async (req, res) => {
             await Post.updateOne({ postid: postid }, { replies: replies }).exec();
 
             console.log("Fin")
-            res.json({ "Server Response": "Success" })
         }
         else {
             res.json({ "Server Response": "Error when handling reply." })
@@ -387,5 +389,38 @@ exports.updatePassword = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+    }
+}
+
+
+exports.deletePost = async (req, res) => {
+    try {
+        const clientuserid = req.body.clientuserid;
+        const postid = req.body.postid;
+
+        console.log(clientuserid, postid)
+
+        // First check if the post was actually made by the requesting clientid
+        const post = await Post.find({ postid: postid }).exec();
+
+        if (post[0].userid === clientuserid) {
+            // If the post was a reply to someone elses post, we need to access the other persons post
+            // and delete this postid from that post
+            if (!post.isStandalonePost) {
+                await Post.update( { postid: post[0].replyingTo}, {$pull: {replies: postid}}).exec();
+                console.log("Deleted")
+            }
+
+            await Post.deleteOne({ postid: postid }).exec();
+
+            return res.json({ "response": 200 });
+        }
+        else {
+            console.log("Unauthorized deletion request.")
+            return res.json({ "response": 400 });
+        }
+
+    } catch (error) {
+        return res.json({ "response": 400 });
     }
 }

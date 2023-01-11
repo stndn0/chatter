@@ -9,7 +9,8 @@ export default function Post(data) {
 
     const date = new Date(postData.date).toLocaleDateString();
     const time = new Date(postData.date).toLocaleTimeString('en-US');
-    const ENDPOINT_LIKE_POST = "http://localhost:5000/user/likepost"
+    const ENDPOINT_LIKE_POST = "http://localhost:5000/user/likepost";
+    const ENDPOINT_DEL_POST = "http://localhost:5000/user/deletepost";
 
     // Called when the user clicks on a username in the timeline.
     // Tell the server to get information about that username so that we can 
@@ -38,15 +39,28 @@ export default function Post(data) {
         sendToServerAuthenticated(ENDPOINT_LIKE_POST, postData.accessToken, { postid, userid })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
+                postData.updateRefreshPage();
+                console.log(postData.refreshPage)
+            }))
+    }
+
+
+    const deletePost = (postid) => {
+        let clientuserid = postData.clientuserid;
+        sendToServerAuthenticated(ENDPOINT_DEL_POST, postData.accessToken, { postid, clientuserid })
+            .then((data => {
+                console.log("*** RESPONSE FROM SERVER ***");
+                postData.updateRefreshPage();
+                console.log(postData.refreshPage)
             }))
     }
 
 
     const displayDeleteBtn = () => {
-        console.log(postData);
+        // console.log(postData);
         if (postData.userid === postData.clientuserid) {
             return (
-                <div id="delete-post">🗑️</div>
+                <div id="delete-post" onClick={() => deletePost(postData.postid)}>🗑️</div>
             )
         }
     }
@@ -60,8 +74,6 @@ export default function Post(data) {
                 </div>
 
                 <div id="post-content">
-                    {/* <div>userid is: {postData.userid}</div> */}
-
                     <div id="post-top-row">
                         <div className="post-username" onClick={() => goToUserProfile(postData.userid)}>{postData.username}</div>
                         {displayDeleteBtn()}
@@ -72,7 +84,6 @@ export default function Post(data) {
                     </div>
 
                     <div className="post-bottom-row">
-                        {/* <div id='boost'>🔁</div> */}
                         <div id="post-social-items">
                             <div id='likes'>{postData.likes}</div>
                             <div id='like' onClick={() => likePost(postData.postid)}>💗</div>

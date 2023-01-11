@@ -69,3 +69,8 @@
     display: flex;
     justify-content: space-between;
 }
+
+#delete-post {
+    opacity: 0.3;
+    cursor: pointer;
+}

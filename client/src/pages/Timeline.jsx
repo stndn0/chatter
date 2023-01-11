@@ -23,7 +23,7 @@ export default function Timeline(props) {
     // Whenever the 'timelinePosts' state gets updated we tell React to 
     // re-render parts of the page with the new information.
     useEffect(() => {
-        console.log("\n\nNew value of timeline posts is: ", timelinePosts)
+        // console.log("\n\nNew value of timeline posts is: ", timelinePosts)
     }, [timelinePosts])
 
 
@@ -59,11 +59,9 @@ export default function Timeline(props) {
         const divs = [];
 
         for (let object of timelinePosts) {
-            Object.assign(object, { accessToken: props.accessToken, clientuserid: props.userid })
-            divs.push(<Post data={object} ></Post>);
+            Object.assign(object, { accessToken: props.accessToken, clientuserid: props.userid, refreshPage: props.refreshPage, updateRefreshPage: props.updateRefreshPage })
+            divs.push(<Post data={object}></Post>);
         }
-
-        console.log(divs)
 
         return (
             <div id='timeline-feed'>
