@@ -42,6 +42,16 @@ export default function Post(data) {
     }
 
 
+    const displayDeleteBtn = () => {
+        console.log(postData);
+        if (postData.userid === postData.clientuserid) {
+            return (
+                <div id="delete-post">🗑️</div>
+            )
+        }
+    }
+
+
     return (
         <div id='post-container'>
             <div id='post'>
@@ -51,7 +61,11 @@ export default function Post(data) {
 
                 <div id="post-content">
                     {/* <div>userid is: {postData.userid}</div> */}
-                    <div className="post-username" onClick={() => goToUserProfile(postData.userid)}>{postData.username}</div>
+
+                    <div id="post-top-row">
+                        <div className="post-username" onClick={() => goToUserProfile(postData.userid)}>{postData.username}</div>
+                        {displayDeleteBtn()}
+                    </div>
 
                     <div className="post-body">
                         {postData.post}
@@ -64,9 +78,9 @@ export default function Post(data) {
                             <div id='like' onClick={() => likePost(postData.postid)}>💗</div>
                             <div id='reply' onClick={() => goToReply(postData.postid)}>🗨️</div>
                         </div>
+
                         <div className="post-time"> {date} at {time}</div>
                     </div>
-
                 </div>
             </div>
         </div>

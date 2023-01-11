@@ -51,7 +51,10 @@ exports.newPost = async (req, res, isStandalonePost = true, premadePostId) => {
         console.log(data)
 
         // To insert a document with *Mongoose* we use the create method.
-        const update = await Post.create(data)
+        const update = await Post.create(data);
+        return res.json({ "response": 200 });
+
+
 
     } catch (error) {
         console.log(error)

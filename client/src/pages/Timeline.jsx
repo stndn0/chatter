@@ -17,7 +17,7 @@ export default function Timeline(props) {
     // that get displayed on the timeline.
     useEffect(() => {
         getPostsFromServer();
-    }, [])  // Empty array - useEffect will only run on first render of page
+    }, [props.refreshPage])  // Empty array - useEffect will only run on first render of page
 
 
     // Whenever the 'timelinePosts' state gets updated we tell React to 
@@ -27,18 +27,16 @@ export default function Timeline(props) {
     }, [timelinePosts])
 
 
+    // useEffect(() => {
+    //     getPostsFromServer();
+    // }, [props.refreshPage])  // Empty array - useEffect will only run on first render of page
+
+
+
     // Save server response to state
     const updateTimelinePosts = (arr) => {
         // Clear existing array and then copy the contents of arr to it.
         setTimelinePosts([...arr])
-        // const newArr = timelinePosts.slice();
-        // newArr.push(arr);
-        // setTimelinePosts(newArr);
-    }
-
-
-    const getPosts = () => {
-        console.log(timelinePosts);
     }
 
 
@@ -60,8 +58,8 @@ export default function Timeline(props) {
     const displayPosts = () => {
         const divs = [];
 
-        for (let object of timelinePosts)  {
-            Object.assign(object, {accessToken: props.accessToken, clientuserid: props.userid})
+        for (let object of timelinePosts) {
+            Object.assign(object, { accessToken: props.accessToken, clientuserid: props.userid })
             divs.push(<Post data={object} ></Post>);
         }
 
@@ -96,7 +94,6 @@ export default function Timeline(props) {
                     <UserProfile {...props}></UserProfile>
                 </div>
             </div>
-
         </div>
     )
 }

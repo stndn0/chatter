@@ -18,7 +18,6 @@
 .post-profile-pic {
     width: 48px;
     height: 48px;
-    border: 1px solid rgba(10, 10, 0, 0.144);
     margin-top: 3px;
 }
 
@@ -32,9 +31,6 @@
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
-}
-
-.post-body {
 }
 
 .post-time {
@@ -55,7 +51,6 @@
 
 #post-social-items {
     display: flex;
-    /* border: 1px solid black; */
     justify-content: space-between;
     width: 15%;
 }
@@ -67,4 +62,10 @@
 .post-profile-pic {
     height: 64px;
     width: 64px;
+}
+
+
+#post-top-row{
+    display: flex;
+    justify-content: space-between;
 }

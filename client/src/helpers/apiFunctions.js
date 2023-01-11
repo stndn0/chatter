@@ -2,7 +2,6 @@
 // requests to API endpoints.
 
 
-
 export async function sendToServer(url, data) {
     const options = {
         method: 'POST',
@@ -16,23 +15,6 @@ export async function sendToServer(url, data) {
     const response = await fetch(url, options);
     return response.json();
 };
-
-// export async function sendToServerAuthorized(url, accessToken) {
-//     const authBody = 'Bearer ' + accessToken;
-
-//     const options = {
-//         method: 'GET',
-//         // Headers consist of meta data. We're telling the server that we're sending a JSON.
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': authBody
-//         },
-//     }
-
-//     const response = await fetch(url, options)
-//     return response.json();
-// }
-
 
 // TODO - merge with sendToServerAuthenticated
 // Authorized route
@@ -58,7 +40,7 @@ export async function setUserBio(accessToken, data) {
 // Send to a server endpoint which requires authorization.
 export async function sendToServerAuthenticated(endpoint, accessToken, data) {
     console.log("*** SEND REQUEST TO SERVER ***")
-    console.log(accessToken, data)
+    // console.log(accessToken, data)
 
     const authBody = 'Bearer ' + accessToken;
 
@@ -72,13 +54,14 @@ export async function sendToServerAuthenticated(endpoint, accessToken, data) {
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(endpoint, options)
+    const response = await fetch(endpoint, options);
+    console.log(response)
     return response.json();
 }
 
 export async function getFromServer(endpoint) {
     console.log("*** GET REQUEST TO SERVER ***")
-    console.log(endpoint)
+    // console.log(endpoint)
 
     const options = {
         method: 'GET',
@@ -91,22 +74,3 @@ export async function getFromServer(endpoint) {
     const response = await fetch(endpoint, options)
     return response.json();
 }
-
-
-// // Get from a server endpoint which requires authorization.
-// export async function getFromServerAuthenticated(endpoint, accessToken, data) {
-//     const authBody = 'Bearer ' + accessToken;
-
-//     const options = {
-//         method: 'GET',
-//         // Headers consist of meta data. We're telling the server that we're sending a JSON.
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Authorization': authBody
-//         },
-//         body: JSON.stringify(data)
-//     }
-
-//     const response = await fetch(endpoint, options)
-//     return response.json();
-// }

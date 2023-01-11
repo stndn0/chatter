@@ -14,12 +14,18 @@ function PostComposer(props) {
     const placeholderText = "What's up, " + props.username + "? Start typing here..."
 
     const sendPostToServer = () => {
-        let userid = props.userid
+        event.preventDefault();
+        let userid = props.userid;
+
+        console.log("Send post to server")
 
         sendToServerAuthenticated(ENDPOINT_NEW_POST, props.accessToken, { userid, post })
             .then((data => {
                 console.log("*** RESPONSE FROM SERVER ***");
                 console.log(data);
+                // Tell application to reload contents of the page.
+                props.updateRefreshPage();
+                console.log(props.refreshPage)
             }))
     }
 

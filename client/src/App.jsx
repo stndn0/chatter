@@ -19,12 +19,14 @@ function App() {
   const [userid, setuserID] = useState(null);
   const [username, setUsername] = useState(null);
   const [userBio, setUserbio] = useState(null);
+  const [refreshPage, setRefreshPage] = useState(null);
 
   const updateAccessToken = (token) => { setAccessToken(token) }
   const updateRefreshToken = (token) => { setRefreshToken(token) }
   const updateUserID = (id) => { setuserID(id) }
   const updateUsername = (username) => { setUsername(username) }
   const updateBio = (bio) => { setUserbio(bio) }
+  const updateRefreshPage = () => { setRefreshPage(refreshPage + 1) }
 
   // Make a test call to the back-end
   useEffect(() => {
@@ -45,7 +47,7 @@ function App() {
 
         <Route path="/login" element={<Login accessToken={accessToken} updateAccessToken={updateAccessToken} refreshToken={refreshToken} updateRefreshToken={updateRefreshToken} username={username} updateUsername={updateUsername} updateBio={updateBio} userid={userid} updateUserID={updateUserID} />}></Route>
 
-        <Route path="/timeline" element={<Timeline accessToken={accessToken} username={username} updateUsername={updateUsername} userBio={userBio} updateBio={updateBio} userid={userid} updateUserID={updateUserID} />}></Route>
+        <Route path="/timeline" element={<Timeline accessToken={accessToken} username={username} updateUsername={updateUsername} userBio={userBio} updateBio={updateBio} userid={userid} updateUserID={updateUserID} refreshPage={refreshPage} updateRefreshPage={updateRefreshPage}/>}></Route>
 
         <Route path="/register" element={<Register></Register>}></Route>
 

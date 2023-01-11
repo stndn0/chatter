@@ -88,16 +88,4 @@ router.post('/updatepassword', auth_controller.authenticateToken, (req, res) => 
 })
 
 
-// Route that gets all replies to a post.
-// Note the route does not require authorization because user replies are public.
-// router.get("/replies/:postid", function(req, res) {
-//     console.log("GET request to /replies/postid with postid:" + req.params.postid);
-//     user_controller.getPostReplies(req, res);
-// })
-
-
-
-
 module.exports = router;
-
-
