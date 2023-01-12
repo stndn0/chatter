@@ -8,6 +8,7 @@ import {
   sendToServerAuthenticated,
 } from "../helpers/apiFunctions";
 import Post from "../components/Post";
+import WhoToFollow from "../components/WhoToFollow";
 
 const ENDPOINT_FOLLOW_USER = "http://localhost:5000/user/followuser";
 
@@ -152,7 +153,8 @@ function UserPage(props) {
     <div id="page-root">
       <div id="grid-container">
         <div id="col-left">
-          <h2>Trending</h2>
+          <h2>Explore</h2>
+          <WhoToFollow {...props}></WhoToFollow>
         </div>
 
         <div id="timeline">

@@ -407,7 +407,7 @@ exports.deletePost = async (req, res) => {
             // If the post was a reply to someone elses post, we need to access the other persons post
             // and delete this postid from that post
             if (!post.isStandalonePost) {
-                await Post.update( { postid: post[0].replyingTo}, {$pull: {replies: postid}}).exec();
+                await Post.update({ postid: post[0].replyingTo }, { $pull: { replies: postid } }).exec();
                 console.log("Deleted")
             }
 
@@ -422,5 +422,29 @@ exports.deletePost = async (req, res) => {
 
     } catch (error) {
         return res.json({ "response": 400 });
+    }
+}
+
+
+exports.getTrendingUsers = async (req, res) => {
+    try {
+        console.log(req.body);
+        const users = await User.aggregate([{ $sample: { size: 5 } }]);
+        const data = [];
+
+        for (let user of users) {
+            let userinfo = {
+                userid: user.userid,
+                username: user.username,
+                avatar: user.avatar,
+            }
+            data.push(userinfo)
+        }
+        console.log(data);
+
+        res.json({"response": 200, "data": data})
+
+    } catch (error) {
+        console.log(error)
     }
 }

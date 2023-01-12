@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Post from '../components/Post';
 import PostComposer from '../components/PostComposer';
 import UserProfile from '../components/UserProfile';
+import WhoToFollow from '../components/WhoToFollow';
 import { sendToServerAuthenticated } from '../helpers/apiFunctions';
 import './Timeline.css'
 
@@ -75,11 +76,12 @@ export default function Timeline(props) {
         <div id="page-root">
             <div id="grid-container">
                 <div id="col-left">
-                    <h2>Trending</h2>
+                    <h2>Explore</h2>
+                    <WhoToFollow {...props}></WhoToFollow>
                 </div>
 
                 <div id="timeline">
-                    <h2>Home</h2>
+                    <h2>Your Feed</h2>
                     <PostComposer {...props}></PostComposer>
 
                     { /* Dynamically render different posts on the users timeline */}
@@ -88,7 +90,7 @@ export default function Timeline(props) {
                 </div>
 
                 <div id="col-right">
-                    <h2>Explore</h2>
+                    <h2>About</h2>
                     <UserProfile {...props}></UserProfile>
                 </div>
             </div>

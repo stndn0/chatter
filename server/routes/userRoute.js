@@ -94,5 +94,9 @@ router.post('/deletepost', auth_controller.authenticateToken, (req, res) => {
     user_controller.deletePost(req, res);
 })
 
+router.post('/exploreusers', auth_controller.authenticateToken, (req, res) => {
+    console.log("POST request to /exploreusers");
+    user_controller.getTrendingUsers(req, res);
+})
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { getFromServer, sendToServerAuthenticated, } from "../helpers/apiFunctions";
 import Post from '../components/Post';
 import ReplyComposer from "../components/ReplyComposer";
+import WhoToFollow from "../components/WhoToFollow";
 
 export default function Reply(props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -114,7 +115,8 @@ export default function Reply(props) {
     <div id="page-root">
       <div id="grid-container">
         <div id="col-left">
-          <h2>Trending</h2>
+          <h2>Explore</h2>
+          <WhoToFollow {...props}></WhoToFollow>
         </div>
 
         <div id="timeline">
@@ -129,7 +131,7 @@ export default function Reply(props) {
         </div>
 
         <div id="col-right">
-          <h2>About</h2>
+          {/* <h2>About</h2> */}
         </div>
       </div>
     </div>
